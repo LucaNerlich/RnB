@@ -2,9 +2,12 @@ package Praktikum1;
 
 public class BurgerKraft {
 
-    public BurgerKraft(Warteschlange warteschlangeZugeordnet, Warteschlange warteschlangeOrder) {
-        this.warteschlangeZugeordnetKunden = warteschlangeZugeordnet;
-        this.warteschlangeOrder = warteschlangeOrder;
+    private Warteschlange burgerLaufband;
+    private Order[] bestellungen;
+
+    public BurgerKraft(Warteschlange burgerLaufband, Order[] bestellungen) {
+        this.burgerLaufband = burgerLaufband;
+        this.bestellungen = bestellungen;
 
     }
 }

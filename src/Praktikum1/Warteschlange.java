@@ -1,23 +1,6 @@
-package Praktikum1;/**
- * Created by Luca on 29.04.2015.
- */
-
-/**
- * Praktikum WIAD, WS 2014/2015
- * Gruppe: Luca Nerlich (Lucasteffen.Nerlich@haw-hamburg.de)
- * 		   Daniel Sommerlig (Daniel.Sommerlig@haw-hamburg.de)
- * Aufgabe: Aufgabenblatt 1
- * mainNeu.java
- */
+package Praktikum1;
 
 import java.util.LinkedList;
-
-/**
- * Application class for our list
- *
- * @author (Daniel.Sommerlig@haw-hamburg.de) &
- *         (Lucasteffen.Nerlich@haw-hamburg.de)
- */
 
 public class Warteschlange<E> {
 
@@ -98,6 +81,6 @@ public class Warteschlange<E> {
     }
 
     public int getSize(){
-        return this.getSize();
+        return warteschlange.size();
     }
 }

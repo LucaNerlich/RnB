@@ -11,11 +11,11 @@ public class Servicekraft implements Runnable {
 
     private Order currentOrder;
     private Warteschlange warteschlangeZugeordnetKunden;
-    private Warteschlange warteschlangeOrder;
+    private Order[] bestellungen;
 
-    public Servicekraft(Warteschlange warteschlangeZugeordnet, Warteschlange warteschlangeOrder) {
+    public Servicekraft(Warteschlange warteschlangeZugeordnet, Order[] bestellungen) {
         this.warteschlangeZugeordnetKunden = warteschlangeZugeordnet;
-        this.warteschlangeOrder = warteschlangeOrder;
+        this.bestellungen = bestellungen;
 
     }
 
@@ -25,10 +25,9 @@ public class Servicekraft implements Runnable {
     }
 
     public synchronized void getNextOrder(){
-        if(warteschlangeOrder.getSize() <= 2){
-
+            //hier in array 1 oder 2 fuellen.
         Kunde kunde = (Kunde) warteschlangeZugeordnetKunden.remove();
-            Order order = kunde.getBestellung();
-        }
+            //Order order = kunde.getBestellung();
+
     }
 }

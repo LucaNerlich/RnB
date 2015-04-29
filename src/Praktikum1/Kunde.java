@@ -1,6 +1,6 @@
 package Praktikum1;
 
-public class Kunde implements Runnable {
+public class Kunde{
 
     private static int kundeId = 0;
     private Order order;
@@ -11,21 +11,19 @@ public class Kunde implements Runnable {
     public Kunde(){
         createdWhen = System.currentTimeMillis();
         kundeId++;
+        generateBestellung();
     }
 
-    @Override
-    public void run() {
-
-    }
-
-    public synchronized Order getBestellung(){
+    public void generateBestellung(){
         int burgerCounter = (int)(Math.random() * 8);
         order = new Order(burgerCounter);
-
-        return order;
     }
 
     public Order getOrder() {
         return order;
+    }
+
+    public int getKundeId() {
+        return kundeId;
     }
 }
