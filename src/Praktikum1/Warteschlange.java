@@ -25,7 +25,7 @@ public class Warteschlange<E> {
      * kritischen Bereich handelt, wird in die Pufferliste geschrieben ->
      * Monitor
      */
-    public synchronized void enter(E item) {
+    public synchronized boolean enter(E item) {
       if(warteschlange.size() <= maxSize){
 
         warteschlange.add(item);
@@ -34,9 +34,11 @@ public class Warteschlange<E> {
           System.err.println("Schlangengroesse: " + warteschlange.size() + "\n");
         // Alle Threads die in der Warteschlange (wait) werden geweckt
         this.notifyAll();
+          return true;
         }
         else{
             System.err.println("Kunde abgewiesen, Schlange " + warteschlangeId + " voll!");
+          return false;
         }
     }
 

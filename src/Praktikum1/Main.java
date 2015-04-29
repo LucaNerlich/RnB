@@ -31,9 +31,6 @@ public class Main {
         Servicekraft skTresen1 = new Servicekraft(0, kundenWS1, bestellungen, acceptedOrdersOverview);
         Servicekraft skTresen2 = new Servicekraft(1, kundenWS2, bestellungen, acceptedOrdersOverview);
 
-        System.out.println(skTresen1.getId());
-        System.out.println(skTresen2.getId());
-
         BurgerKraft skBurger1 = new BurgerKraft(burgerLaufband, bestellungen);
         BurgerKraft skBurger2 = new BurgerKraft(burgerLaufband, bestellungen);
         BurgerKraft skBurger3 = new BurgerKraft(burgerLaufband, bestellungen);

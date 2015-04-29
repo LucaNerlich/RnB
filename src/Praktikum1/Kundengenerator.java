@@ -28,15 +28,13 @@ public class Kundengenerator implements Runnable {
     private void generateKunden() {
         Kunde kunde = new Kunde();
         // FUNKTIONIERT NICHT. Sobald id 0 voll ist, haengt er sich auf.
-        if ((warteschlange1.getSize() != warteschlange1.getMaxSize()) && warteschlange1.getSize() <= warteschlange2.getSize()) {
+        int rndm = (int) ((Math.random() * 2) + 1); // 50/50 auf die beiden Quese verteilen. Else sollte nicht erreicht werden.
+        if (rndm == 1) {
             warteschlange1.enter(kunde);
-        }
-
-        if ((warteschlange2.getSize() != warteschlange2.getMaxSize()) && warteschlange2.getSize() >= warteschlange1.getSize()) {
+        } else if (rndm == 2) {
             warteschlange2.enter(kunde);
-        }
-        else{
-            System.out.println("Schlangen voll, Kunde abgewiesen.");
+        } else {
+            System.out.println("Math Random Error");
         }
     }
 }
