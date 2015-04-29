@@ -23,14 +23,14 @@ public class Main {
         Warteschlange kundenWS1 = new Warteschlange(10);
         Warteschlange kundenWS2 = new Warteschlange(10);
         Warteschlange burgerLaufband = new Warteschlange(12);
-        Warteschlange bestellungen = new Warteschlange(2);
+        Warteschlange bestellungen = new Warteschlange(2); // Als ARRAY UMSETZEN
 
         Servicekraft skTresen1 = new Servicekraft(kundenWS1, bestellungen);
         Servicekraft skTresen2 = new Servicekraft(kundenWS2, bestellungen);
 
-        Servicekraft skBurger1 = new Servicekraft(burgerLaufband, bestellungen);
-        Servicekraft skBurger2 = new Servicekraft(burgerLaufband, bestellungen);
-        Servicekraft skBurger3 = new Servicekraft(burgerLaufband, bestellungen);
+        BurgerKraft skBurger1 = new Servicekraft(burgerLaufband, bestellungen);
+        BurgerKraft skBurger2 = new Servicekraft(burgerLaufband, bestellungen);
+        BurgerKraft skBurger3 = new Servicekraft(burgerLaufband, bestellungen);
 
 
 
