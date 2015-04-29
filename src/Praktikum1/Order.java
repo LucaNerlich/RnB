@@ -20,7 +20,8 @@ package Praktikum1;/**
 public class Order {
     private static int orderId = 0;
     private int counterBurgerBestellt;
-    private int counterBurgerFertig;
+    private int counterBurgerFertig = 0;
+    Servicekraft wirdBearbeitetVon;
 
     public Order(int counterBurgerBestellt) {
         orderId++;
@@ -41,5 +42,21 @@ public class Order {
 
     public void setCounterBurgerFertig(int counterBurgerFertig) {
         this.counterBurgerFertig = counterBurgerFertig;
+    }
+
+    public void addBurgerToOrder(){
+        counterBurgerFertig++;
+    }
+
+    public int getOrderId() {
+        return orderId;
+    }
+
+    public Servicekraft getWirdBearbeitetVon() {
+        return wirdBearbeitetVon;
+    }
+
+    public void setWirdBearbeitetVon(Servicekraft wirdBearbeitetVon) {
+        this.wirdBearbeitetVon = wirdBearbeitetVon;
     }
 }

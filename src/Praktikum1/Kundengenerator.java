@@ -1,7 +1,6 @@
 package Praktikum1;
 
 public class Kundengenerator implements Runnable {
-    private int kundenCounter = 0;
     private int maxKunden;
     private Warteschlange warteschlange1;
     private Warteschlange warteschlange2;
@@ -14,10 +13,12 @@ public class Kundengenerator implements Runnable {
 
     @Override
     public void run() {
-        while(kundenCounter <= maxKunden) {
+
+        // add timer, then interrupt.
+        while (!(Thread.interrupted())) {
             generateKunden();
             try {
-                Thread.sleep((long) (Math.random() * 3000) + 1);
+                Thread.sleep((long) (Math.random() * 1500) + 1);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -26,16 +27,16 @@ public class Kundengenerator implements Runnable {
 
     private void generateKunden() {
         Kunde kunde = new Kunde();
-        if(warteschlange1.getSize() < warteschlange2.getSize()){
+        // FUNKTIONIERT NICHT. Sobald id 0 voll ist, haengt er sich auf.
+        if ((warteschlange1.getSize() != warteschlange1.getMaxSize()) && warteschlange1.getSize() <= warteschlange2.getSize()) {
             warteschlange1.enter(kunde);
-            kundenCounter++;
-            System.err.println("Added Kunde" + kunde.getKundeId() + " to Warteschlange 1");
-            System.err.println("Schlangengroesse: " + warteschlange1.getSize());
-        }else{
+        }
+
+        if ((warteschlange2.getSize() != warteschlange2.getMaxSize()) && warteschlange2.getSize() >= warteschlange1.getSize()) {
             warteschlange2.enter(kunde);
-            kundenCounter++;
-            System.err.println("Added Kunde" + kunde.getKundeId() + " to Warteschlange 2");
-            System.err.println("Schlangengroesse: " + warteschlange2.getSize());
+        }
+        else{
+            System.out.println("Schlangen voll, Kunde abgewiesen.");
         }
     }
 }
