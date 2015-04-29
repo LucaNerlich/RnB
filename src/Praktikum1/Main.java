@@ -19,7 +19,7 @@ public class Main {
     public static void main(String[] args) {
         Kueche kueche = new Kueche();
 
-        Warteschlange kundenWS1 = new Warteschlange(0, 1); // ID = 1 wichtig fuer Order zuordnung.
+        Warteschlange kundenWS1 = new Warteschlange(0, 10); // ID = 1 wichtig fuer Order zuordnung.
         Warteschlange kundenWS2 = new Warteschlange(1, 10); // ID = 2
         Warteschlange burgerLaufband = new Warteschlange(2, 12); // ID = 3
 
@@ -35,9 +35,19 @@ public class Main {
         BurgerKraft skBurger2 = new BurgerKraft(burgerLaufband, bestellungen);
         BurgerKraft skBurger3 = new BurgerKraft(burgerLaufband, bestellungen);
 
-        kundengenerator.run();
+        Thread kg = new Thread(kundengenerator);
+
+        Thread sk1 = new Thread(skTresen1);
+        Thread sk2 = new Thread(skTresen2);
+
+        kg.start();
+        sk1.start();
+        sk2.start();
+
+        /* kundengenerator.run();
+
+        // WIRD NIE ERREICHT????
         skTresen1.run();
-        skTresen2.run();
-        System.out.println("test");
+        skTresen2.run(); */
     }
 }

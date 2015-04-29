@@ -16,7 +16,7 @@ public class Kunde {
     }
 
     public void generateBestellung() {
-        int burgerCounter = (int) (Math.random() * 8);
+        int burgerCounter = (int) ((Math.random() * 8) + 1);
         order = new Order(burgerCounter);
     }
 

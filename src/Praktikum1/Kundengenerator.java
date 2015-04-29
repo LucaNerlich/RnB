@@ -2,6 +2,7 @@ package Praktikum1;
 
 public class Kundengenerator implements Runnable {
     private int maxKunden;
+    private int counterAbgewiesen = 0;
     private Warteschlange warteschlange1;
     private Warteschlange warteschlange2;
 
@@ -27,14 +28,20 @@ public class Kundengenerator implements Runnable {
 
     private void generateKunden() {
         Kunde kunde = new Kunde();
+        boolean added = false;
         // FUNKTIONIERT NICHT. Sobald id 0 voll ist, haengt er sich auf.
         int rndm = (int) ((Math.random() * 2) + 1); // 50/50 auf die beiden Quese verteilen. Else sollte nicht erreicht werden.
         if (rndm == 1) {
-            warteschlange1.enter(kunde);
+            added = warteschlange1.enter(kunde);
         } else if (rndm == 2) {
-            warteschlange2.enter(kunde);
+            added = warteschlange2.enter(kunde);
+            System.out.println("test");
         } else {
             System.out.println("Math Random Error");
+        }
+
+        if (!added) {
+            counterAbgewiesen++;
         }
     }
 }

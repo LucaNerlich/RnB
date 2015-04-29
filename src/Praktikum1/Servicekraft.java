@@ -29,13 +29,14 @@ public class Servicekraft implements Runnable {
 
     @Override
     public void run() {
+
         while (!Thread.interrupted()) {
             // Wenn eine SK 3 mehr als die andere hat, wird geschlafen.
             // WERT MUSS BEI ABSCHLUSS DER BESTELLUNG UM 1 REDUZIERT WERDEN!!!
             if (id == 0) {
                 if ((acceptedOrdersOverview[1] - acceptedOrdersOverview[id]) > 3) {
                     try {
-                        Thread.sleep(5000);
+                        Thread.sleep(500);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -44,7 +45,7 @@ public class Servicekraft implements Runnable {
             if (id == 1) {
                 if ((acceptedOrdersOverview[0] - acceptedOrdersOverview[id]) < 3) {
                     try {
-                        Thread.sleep(5000);
+                        Thread.sleep(500);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -58,7 +59,7 @@ public class Servicekraft implements Runnable {
     public void getNextOrder() {
 
         // verarbeite Bestellung.
-        long timeCache = (long) ((Math.random() * 5000) + 5001); // zwischen 5 und 10 sekunden.
+        long timeCache = (long) ((Math.random() * 500) + 501); // zwischen 5 und 10 sekunden.
         try {
             Thread.sleep(timeCache);
         } catch (InterruptedException e) {
@@ -70,6 +71,7 @@ public class Servicekraft implements Runnable {
                 Kunde kunde = (Kunde) warteSchlange.remove();
 
                 System.err.println("Bestellung des Kunden " + kunde.getKundeId() + " wurde angenommen.");
+                System.err.println("Bearbeitet von SK: " + id);
                 System.err.println("Kunde " + kunde.getKundeId() + " wartet. \n");
 
                 bestellungen[0] = kunde.getOrder();
@@ -81,6 +83,10 @@ public class Servicekraft implements Runnable {
                 acceptedOrdersOverview[id]++;
             } else if ((id == 1) && bestellungen[1] == null) {
                 Kunde kunde = (Kunde) warteSchlange.remove();
+
+                System.err.println("Bestellung des Kunden " + kunde.getKundeId() + " wurde angenommen.");
+                System.err.println("Bearbeitet von SK: " + id);
+                System.err.println("Kunde " + kunde.getKundeId() + " wartet. \n");
                 bestellungen[1] = kunde.getOrder();
                 currentOrder = kunde.getOrder();
                 kunde.getOrder().setWirdBearbeitetVon(this);
