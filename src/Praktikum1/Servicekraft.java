@@ -111,8 +111,9 @@ public class Servicekraft implements Runnable {
             //Kunde kann erst verlassen, wenn er alle Burger erhalten hat.
 
             Kunde ownerRemoved = (Kunde) warteSchlange.remove();
+
             if (ownerRemoved != null) {
-                System.err.println("--> Owner " + ownerRemoved.getKundeId() + " order " + currentOrder.getOwner().getKundeId() + " finished. removed");
+                System.err.println("--> Kunde " + ownerRemoved.getKundeId() + " order " + ownerRemoved.getOrder().getOrderId() + " finished. removed");
                 System.err.println("--> Kunde hat Rechung bezahlt. Verlaesst den Laden.");
                 System.err.println("--> By SK " + id);
                 finishedOrders++;
@@ -134,9 +135,5 @@ public class Servicekraft implements Runnable {
 
     public int getAcceptedOrders() {
         return acceptedOrders;
-    }
-
-    public Warteschlange getWarteSchlange() {
-        return warteSchlange;
     }
 }

@@ -39,8 +39,9 @@ public class Kundengenerator implements Runnable {
             added = warteschlange1.enter(kunde);
             if (added) {
                 kundenGenerated++;
-                System.err.println("Added Kunde " + kunde.getKundeId() + "  to Queue " + warteschlange1.getWarteschlangeId());
-                System.err.println("Schlangengroesse: " + warteschlange1.getSize() + "\n");
+               // System.err.println("Added Kunde " + kunde.getKundeId() + "  to Queue " + warteschlange1.getWarteschlangeId());
+               // System.err.println("Order: " + kunde.getOrder().getOrderId());
+               // System.err.println("Schlangengroesse: " + warteschlange1.getSize() + "\n");
             } else {
                 //System.err.println("SCHLANGE 1 VOLL");
             }
@@ -49,8 +50,9 @@ public class Kundengenerator implements Runnable {
             added = warteschlange2.enter(kunde2);
             if (added) {
                 kundenGenerated++;
-                System.err.println("Added Kunde " + kunde2.getKundeId() + " to Queue " + warteschlange2.getWarteschlangeId());
-                System.err.println("Schlangengroesse: " + warteschlange2.getSize() + "\n");
+              //  System.err.println("Added Kunde " + kunde2.getKundeId() + " to Queue " + warteschlange2.getWarteschlangeId());
+              //  System.err.println("Order: " + kunde2.getOrder().getOrderId());
+               // System.err.println("Schlangengroesse: " + warteschlange2.getSize() + "\n");
             } else {
                 //System.err.println("SCHLANGE 2 VOLL");
             }

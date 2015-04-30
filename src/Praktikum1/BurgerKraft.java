@@ -29,6 +29,6 @@ public class BurgerKraft implements Runnable {
         }
 
         burgerLaufband.enter(burger);
-        System.out.println("Burger aufs Laufband gelegt.");
+       // System.out.println("Burger aufs Laufband gelegt.");
     }
 }

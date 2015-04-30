@@ -36,10 +36,11 @@ public class Warteschlange<E> {
         System.err
                 .println("<= ENTER: "
                         + Thread.currentThread().getName()
-                        + " hat ein Objekt aus dem Puffer: "
+                        + " hat ein Objekt in dem Puffer: "
                         + warteschlangeId
-                        + " genommen. Aktuelle Puffergroesse: "
-                        + warteschlange.size());
+                        + " gelegt. Aktuelle Puffergroesse: "
+                        + warteschlange.size()
+                        + "\n");
         this.notifyAll();
         return true;
     }
@@ -66,7 +67,8 @@ public class Warteschlange<E> {
                         + " hat ein Objekt aus dem Puffer: "
                         + warteschlangeId
                         + " genommen. Aktuelle Puffergroesse: "
-                        + warteschlange.size());
+                        + warteschlange.size()
+                        + "\n");
         // informiert alle wartenden Threads
         this.notifyAll();
 
