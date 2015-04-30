@@ -64,17 +64,12 @@ public class ServiceKraft implements Runnable {
         //burger werden einfach geloescht, kunde hat damit alle erhalten
 
         //scheduler verhindert deadlocks
-        // TODO BRICHT ZU FRUEH AB!!!
-        //System.err.println("######## LB SIZE " + burgerLaufband.getSize());
-        //System.err.println("######## BG BESTELLT " + bestellung.getAnzahlBurgerBestellt());
-        //System.err.println("@@@@@@@@@@@ SCHEDULER TRUE??" + Scheduler.getInstance().isMyTurn(this));
 
         int gewuenschteBurger = bestellung.getAnzahlBurgerBestellt();
         int burgerGeholt = 0;
 
         //while (Scheduler.getInstance().isMyTurn(this) && (burgerLaufband.getSize() >= bestellung.getAnzahlBurgerBestellt())) {
         while (Scheduler.getInstance().isMyTurn(this) && (burgerGeholt < gewuenschteBurger)) {
-         //   System.err.println("%%%%%%%%% IN WHILE %%%%%%%%%%%");
             //for (int i = 0; i <= bestellung.getAnzahlBurgerBestellt(); i++) {
                 if (burgerLaufband.remove() != null) {
                     burgerGeholt++;
