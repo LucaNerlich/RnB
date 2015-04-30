@@ -33,9 +33,16 @@ public class Kundengenerator implements Runnable {
         int rndm = (int) ((Math.random() * 2) + 1); // 50/50 auf die beiden Quese verteilen. Else sollte nicht erreicht werden.
         if (rndm == 1) {
             added = warteschlange1.enter(kunde);
+            if (added) {
+                System.err.println("Added Kunde " + kunde.getKundeId() + "  to Queue " + warteschlange1.getWarteschlangeId());
+                System.err.println("Schlangengroesse: " + warteschlange1.getSize() + "\n");
+            }
         } else if (rndm == 2) {
             added = warteschlange2.enter(kunde);
-            System.out.println("test");
+            if (added) {
+                System.err.println("Added Kunde " + kunde.getKundeId() + " to Queue " + warteschlange2.getWarteschlangeId());
+                System.err.println("Schlangengroesse: " + warteschlange2.getSize() + "\n");
+            }
         } else {
             System.out.println("Math Random Error");
         }

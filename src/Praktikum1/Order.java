@@ -21,10 +21,12 @@ public class Order {
     private static int orderId = 0;
     private int counterBurgerBestellt;
     private int counterBurgerFertig = 0;
+    private Kunde owner;
     Servicekraft wirdBearbeitetVon;
 
-    public Order(int counterBurgerBestellt) {
+    public Order(int counterBurgerBestellt, Kunde owner) {
         orderId++;
+        this.owner = owner;
         this.counterBurgerBestellt = counterBurgerBestellt;
     }
 
@@ -32,19 +34,13 @@ public class Order {
         return counterBurgerBestellt;
     }
 
-    public void setCounterBurgerBestellt(int counterBurgerBestellt) {
-        this.counterBurgerBestellt = counterBurgerBestellt;
-    }
-
     public int getCounterBurgerFertig() {
         return counterBurgerFertig;
     }
 
-    public void setCounterBurgerFertig(int counterBurgerFertig) {
-        this.counterBurgerFertig = counterBurgerFertig;
-    }
 
-    public void addBurgerToOrder(){
+    //gives the customer one burger
+    public void addBurgerToOrder() {
         counterBurgerFertig++;
     }
 
@@ -58,5 +54,9 @@ public class Order {
 
     public void setWirdBearbeitetVon(Servicekraft wirdBearbeitetVon) {
         this.wirdBearbeitetVon = wirdBearbeitetVon;
+    }
+
+    public Kunde getOwner() {
+        return owner;
     }
 }

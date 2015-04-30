@@ -6,9 +6,7 @@ public class Warteschlange<E> {
 
     private int warteschlangeId;
     private int maxSize;
-    private int counter;
 
-    private int kundenCounter = 0;
 
 
     private LinkedList<E> warteschlange;
@@ -26,50 +24,49 @@ public class Warteschlange<E> {
      * Monitor
      */
     public synchronized boolean enter(E item) {
-      if(warteschlange.size() <= maxSize){
+        if (warteschlange.size() < maxSize) {
 
-        warteschlange.add(item);
+            warteschlange.add(item);
 
-          System.err.println("Added Kunde to Queue " + warteschlangeId);
-          System.err.println("Schlangengroesse: " + warteschlange.size() + "\n");
-        // Alle Threads die in der Warteschlange (wait) werden geweckt
-        this.notifyAll();
-          return true;
-        }
-        else{
-            System.err.println("Kunde abgewiesen, Schlange " + warteschlangeId + " voll!");
-          return false;
+
+
+            // Alle Threads die in der Warteschlange (wait) werden geweckt
+            this.notifyAll();
+            return true;
+        } else {
+            System.err.println("Schlange " + warteschlangeId + " voll!");
+            return false;
         }
     }
 
     /**
-     * Consumer (Verbraucher) rufen die Methode REMOVE auf Entfernt das erste
+     * Consumer (Verbraucher) rufen die Methode REMOVE auf. Entfernt und returned das erste
      * Element der Liste / Buffer
      */
     public synchronized E remove() {
         E item;
-        while (warteschlange.size() == 0) {
-            try {
-                this.wait();
-            } catch (InterruptedException e) {
-
-                Thread.currentThread().interrupt();
-                return null;
-            }
+        if (warteschlange.size() == 0) {
+           //  System.err.println("Couldnt remove First, Queue is empty.");
+            item = null;
+        } else {
+            item = warteschlange.removeFirst();
+            // informiert alle wartenden Threads
+            this.notifyAll();
         }
-        // Methode von LinkedList
-        item = warteschlange.removeFirst();
-        // informiert alle wartenden Threads
-        this.notifyAll();
         return item;
     }
 
-    public synchronized void counter() {
-        counter++;
-    }
+    public synchronized E getFirst() {
+        E item;
 
-    public int getCounter() {
-        return counter;
+        if (warteschlange.size() == 0) {
+            // System.err.println("Couldnt get First, Queue is empty.");
+            item = null;
+        } else {
+            item = warteschlange.getFirst();
+            this.notifyAll();
+        }
+        return item;
     }
 
     public int getSize() {
