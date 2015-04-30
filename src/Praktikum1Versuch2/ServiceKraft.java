@@ -14,13 +14,15 @@ public class ServiceKraft implements Runnable {
 
     @Override
     public void run() {
-        getNextOrder();
+        while (!(Thread.interrupted())) {
+            getNextOrder();
 
-        try {
-            // sleep for 0 - 2 sec
-            Thread.sleep((long) (Math.random() * 2000));
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+            try {
+                // sleep for 0 - 2 sec
+                Thread.sleep((long) (Math.random() * 2000));
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -30,8 +32,8 @@ public class ServiceKraft implements Runnable {
             kunde.setPlacedOrderAt(System.currentTimeMillis());
             int anzahlBurger = kunde.getAnzahlBurgerBestellt();
 
-            System.err.println("[SK_" + Thread.currentThread().getName() + "] __ "
-                    + kunde.getName() + " will: " + anzahlBurger + " Burger. \n");
+            System.err.println("\n[SK_" + Thread.currentThread().getName() + "] __ "
+                    + kunde.getName() + " will: " + anzahlBurger + " Burger.");
 
             //sende Bestellung an Kueche
             bestellQueue.enterBurger(anzahlBurger);

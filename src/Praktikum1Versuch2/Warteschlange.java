@@ -20,10 +20,11 @@ public class Warteschlange<E> {
     public synchronized boolean enter(E item) {
         boolean added = false;
         if (warteschlange.size() >= maxSize) {
-            System.err.println("QUEUE VOLL");
-        }else {
-            // Alle Threads die in der Warteschlange (wait) werden geweckt
+            // do nothing
+        } else {
             warteschlange.add(item);
+
+            // Alle Threads die in der Warteschlange (wait) werden geweckt
             this.notifyAll();
             added = true;
         /*
