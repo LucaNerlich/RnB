@@ -1,23 +1,18 @@
 package Praktikum1Versuch2;
 
-import Praktikum1.Servicekraft;
-
 public class ServiceKraft implements Runnable {
 
     private Warteschlange kundenQueue;
     private Warteschlange bestellQueue;
     private Warteschlange burgerLaufband;
-    private ServiceKraft kollege;
     private int counterFertigeBestellungen = 0;
     private Kunde kunde = null;
     private Bestellung bestellung = null;
-    private Scheduler scheduler;
 
-    public ServiceKraft(Warteschlange kundenQueue, Warteschlange bestellQueue, Warteschlange burgerLaufband, Scheduler scheduler) {
+    public ServiceKraft(Warteschlange kundenQueue, Warteschlange bestellQueue, Warteschlange burgerLaufband) {
         this.kundenQueue = kundenQueue;
         this.bestellQueue = bestellQueue;
         this.burgerLaufband = burgerLaufband;
-        this.scheduler = scheduler;
     }
 
     @Override
@@ -31,6 +26,8 @@ public class ServiceKraft implements Runnable {
             counterFertigeBestellungen++;
             kunde = null;
             kundenQueue.remove();
+            System.err.println("\n[SK_" + Thread.currentThread().getName() + "] __ "
+                    + kunde.getName() + " Hat bezahlt und seine Bestellung erhalten.");
 
             // todo wenn bestellung done, remove kunde, setz kunde auf null
 
@@ -55,31 +52,28 @@ public class ServiceKraft implements Runnable {
             System.err.println("\n[SK_" + Thread.currentThread().getName() + "] __ "
                     + kunde.getName() + " will: " + bestellung.getAnzahlBurgerBestellt() + " Burger.");
 
-            //sende Bestellung an Kueche
-            //ueberhaupt noetig?
-            bestellQueue.enterBurger(bestellung);
+            // ueberhaupt noetig?
+            // bestellQueue.enterBurger(bestellung);
         }
     }
 
     private void getBurgerFromKitchen() {
+        //burger werden einfach geloescht, kunde hat damit alle erhalten
 
         //scheduler verhindert deadlocks
-       while (scheduler.isMyTurn(this, kollege) && (burgerLaufband.getSize() >= bestellung.getAnzahlBurgerBestellt() )) {
-            for(int i = 0; i <= bestellung.getAnzahlBurgerBestellt(); i++){
+        while (Scheduler.getInstance().isMyTurn(this) && (burgerLaufband.getSize() >= bestellung.getAnzahlBurgerBestellt())) {
+            for (int i = 0; i <= bestellung.getAnzahlBurgerBestellt(); i++) {
                 burgerLaufband.remove();
             }
         }
-    }
-
-    public ServiceKraft getKollege() {
-        return kollege;
-    }
-
-    public void setKollege(ServiceKraft kollege) {
-        this.kollege = kollege;
+        kunde.setOrderFinishedAt(System.currentTimeMillis());
     }
 
     public int getCounterFertigeBestellungen() {
         return counterFertigeBestellungen;
+    }
+
+    public Bestellung getBestellung() {
+        return bestellung;
     }
 }

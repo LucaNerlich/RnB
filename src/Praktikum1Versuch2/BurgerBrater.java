@@ -25,6 +25,8 @@ public class BurgerBrater implements Runnable {
     }
 
     private void makeBurger() {
+        //scheduler muss anzahl Burger ueberwachen
+
         burgerLaufband.enter(new Burger());
         System.err.println("[BB_" + Thread.currentThread().getName() + "] __ 1 Burger aufs Laufband gelegt. \n");
     }

@@ -11,12 +11,4 @@ public class Bestellung {
     public int getAnzahlBurgerBestellt() {
         return anzahlBurgerBestellt;
     }
-
-    public void setAnzahlBurgerBestellt(int anzahlBurgerBestellt) {
-        this.anzahlBurgerBestellt = anzahlBurgerBestellt;
-    }
-
-    public void oneBurgerFinished(){
-        anzahlBurgerBestellt--;
-    }
 }

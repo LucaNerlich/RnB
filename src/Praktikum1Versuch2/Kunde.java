@@ -40,4 +40,12 @@ public class Kunde {
     public Bestellung getBestellung() {
         return bestellung;
     }
+
+    public long getOrderFinishedAt() {
+        return orderFinishedAt;
+    }
+
+    public void setOrderFinishedAt(long orderFinishedAt) {
+        this.orderFinishedAt = orderFinishedAt;
+    }
 }
