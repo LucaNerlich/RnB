@@ -4,10 +4,12 @@ import Praktikum1.Servicekraft;
 
 public class ServiceKraft implements Runnable {
 
-    private Warteschlange queue;
+    private Warteschlange kundenQueue;
+    private Warteschlange bestellQueue;
 
-    public ServiceKraft(Warteschlange queue) {
-        this.queue = queue;
+    public ServiceKraft(Warteschlange kundenQueue, Warteschlange bestellQueue) {
+        this.kundenQueue = kundenQueue;
+        this.bestellQueue = bestellQueue;
     }
 
     @Override
@@ -22,9 +24,18 @@ public class ServiceKraft implements Runnable {
         }
     }
 
-    private void getNextOrder() {
-        Kunde kunde = (Kunde) queue.getFirst();
-        int anzahlBurger = kunde.getAnzahlBurgerBestellt();
-        System.err.println("[SK_" + Thread.currentThread().getName() + "] __ " + kunde.getName() + " will so viele Burger: " + anzahlBurger + "\n");
+    private synchronized void getNextOrder() {
+        Kunde kunde = (Kunde) kundenQueue.getFirst();
+        if (kunde != null) {
+            kunde.setPlacedOrderAt(System.currentTimeMillis());
+            int anzahlBurger = kunde.getAnzahlBurgerBestellt();
+
+            System.err.println("[SK_" + Thread.currentThread().getName() + "] __ "
+                    + kunde.getName() + " will: " + anzahlBurger + " Burger. \n");
+
+            //sende Bestellung an Kueche
+            bestellQueue.enterBurger(anzahlBurger);
+            System.err.println("[SK_" + Thread.currentThread().getName() + "] __ Bestellung ueber " + anzahlBurger + " Burger an Kueche geschickt. \n");
+        }
     }
 }

@@ -55,6 +55,7 @@ public class Kundengenerator implements Runnable {
 
         if (!added) {
             counterAbgewiesen++;
+            System.err.println("[KG] __ Abgewiesen: " + counterAbgewiesen);
         }
     }
 }

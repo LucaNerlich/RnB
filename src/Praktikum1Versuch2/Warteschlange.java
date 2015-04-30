@@ -16,13 +16,37 @@ public class Warteschlange<E> {
         this.maxSize = maxSize;
     }
 
+
+    public synchronized boolean enter(E item) {
+        boolean added = false;
+        if (warteschlange.size() >= maxSize) {
+            System.err.println("QUEUE VOLL");
+        }else {
+            // Alle Threads die in der Warteschlange (wait) werden geweckt
+            warteschlange.add(item);
+            this.notifyAll();
+            added = true;
+        /*
+        System.err
+                .println("[WS] __   ENTER: "
+                        + Thread.currentThread().getName()
+                        + " hat ein Objekt in dem Puffer: "
+                        + warteschlangeId
+                        + " gelegt. Aktuelle Puffergroesse: "
+                        + warteschlange.size()
+                        + "\n"); */
+
+        }
+        return added;
+    }
+
     /**
      * Producer (Erzeuger) rufen die Methode enter() auf Diese legt das item in
      * den Puffer mit der add() Methode Synchronized da es sich um einen
      * kritischen Bereich handelt, wird in die Pufferliste geschrieben ->
      * Monitor
      */
-    public synchronized boolean enter(E item) {
+    public synchronized boolean enterBurger(E item) {
         while (warteschlange.size() >= maxSize) {
             try {
                 this.wait();

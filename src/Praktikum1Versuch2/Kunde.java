@@ -35,4 +35,8 @@ public class Kunde {
     public String getName() {
         return name;
     }
+
+    public void setPlacedOrderAt(long placedOrderAt) {
+        this.placedOrderAt = placedOrderAt;
+    }
 }
