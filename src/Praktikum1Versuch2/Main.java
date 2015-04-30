@@ -16,8 +16,8 @@ public class Main {
 
         Kundengenerator kg = new Kundengenerator(25, queue1, queue2);
 
-        ServiceKraft sk1 = new ServiceKraft(queue1, bestellungenQueue, burgerLaufband);
-        ServiceKraft sk2 = new ServiceKraft(queue2, bestellungenQueue, burgerLaufband);
+        ServiceKraft sk1 = new ServiceKraft(queue1, burgerLaufband);
+        ServiceKraft sk2 = new ServiceKraft(queue2, burgerLaufband);
 
         //singleton speichert sich in sich selbst
         Scheduler.getInstance();

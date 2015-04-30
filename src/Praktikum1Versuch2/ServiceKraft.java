@@ -3,15 +3,13 @@ package Praktikum1Versuch2;
 public class ServiceKraft implements Runnable {
 
     private Warteschlange kundenQueue;
-    private Warteschlange bestellQueue;
     private Warteschlange burgerLaufband;
     private int counterFertigeBestellungen = 0;
     private Kunde kunde = null;
     private Bestellung bestellung = null;
 
-    public ServiceKraft(Warteschlange kundenQueue, Warteschlange bestellQueue, Warteschlange burgerLaufband) {
+    public ServiceKraft(Warteschlange kundenQueue, Warteschlange burgerLaufband) {
         this.kundenQueue = kundenQueue;
-        this.bestellQueue = bestellQueue;
         this.burgerLaufband = burgerLaufband;
     }
 
@@ -35,8 +33,6 @@ public class ServiceKraft implements Runnable {
             kundenQueue.remove();
 
             // todo bevor der kunde entfernt wird, muss noch eine zufallzeit fuers laden verlassen abgespeichert werden.
-
-
         }
     }
 
@@ -61,8 +57,6 @@ public class ServiceKraft implements Runnable {
             //System.err.println("\n[SK_" + Thread.currentThread().getName() + "] __ "
             //      + kunde.getName() + " will: " + bestellung.getAnzahlBurgerBestellt() + " Burger.");
 
-            // ueberhaupt noetig?
-            // bestellQueue.enterBurger(bestellung);
         }
     }
 
