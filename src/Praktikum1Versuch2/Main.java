@@ -11,8 +11,12 @@ public class Main {
 
         Kundengenerator kg = new Kundengenerator(25, queue1, queue2);
 
-        ServiceKraft sk1 = new ServiceKraft(queue1, bestellungenQueue);
-        ServiceKraft sk2 = new ServiceKraft(queue2, bestellungenQueue);
+        Scheduler scheduler = new Scheduler();
+
+        ServiceKraft sk1 = new ServiceKraft(queue1, bestellungenQueue, burgerLaufband, scheduler);
+        ServiceKraft sk2 = new ServiceKraft(queue2, bestellungenQueue, burgerLaufband, scheduler);
+        sk1.setKollege(sk2);
+        sk2.setKollege(sk1);
 
         BurgerBrater bk1 = new BurgerBrater(bestellungenQueue, burgerLaufband);
         BurgerBrater bk2 = new BurgerBrater(bestellungenQueue, burgerLaufband);
