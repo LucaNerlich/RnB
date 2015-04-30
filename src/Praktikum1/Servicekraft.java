@@ -103,7 +103,7 @@ public class Servicekraft implements Runnable {
                 if (burger != null) {
                     currentOrder.addBurgerToOrder();
                     burgersReady++;
-                    System.err.println("--> Burger successfully added to order");
+                    System.err.println("--> Burger successfully added to order " + currentOrder.getOwner().getKundeId());
                 }
             }
             currentOrder.getOwner().saveOrderFinishedTime();
@@ -112,7 +112,7 @@ public class Servicekraft implements Runnable {
 
             Kunde ownerRemoved = (Kunde) warteSchlange.remove();
             if (ownerRemoved != null) {
-                System.err.println("--> Owner" + ownerRemoved.getKundeId() + " order finished. removed");
+                System.err.println("--> Owner " + ownerRemoved.getKundeId() + " order " + currentOrder.getOwner().getKundeId() + " finished. removed");
                 System.err.println("--> Kunde hat Rechung bezahlt. Verlaesst den Laden.");
                 System.err.println("--> By SK " + id);
                 finishedOrders++;

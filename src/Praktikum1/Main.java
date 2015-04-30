@@ -25,7 +25,7 @@ public class Main {
         //haelt die Anzahl der bestellten Buerger fuer die Kueche.
         int burgersToMake = 0;
 
-        Kundengenerator kundengenerator = new Kundengenerator(50, kundenWS1, kundenWS2); // 50 Kunden
+        Kundengenerator kundengenerator = new Kundengenerator(15, kundenWS1, kundenWS2); // 50 Kunden
 
         Servicekraft skTresen1 = new Servicekraft(0, kundenWS1, burgersToMake, burgerLaufband);
         Servicekraft skTresen2 = new Servicekraft(1, kundenWS2, burgersToMake, burgerLaufband);

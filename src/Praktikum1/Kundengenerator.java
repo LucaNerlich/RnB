@@ -3,6 +3,7 @@ package Praktikum1;
 public class Kundengenerator implements Runnable {
     private int maxKunden;
     private int counterAbgewiesen = 0;
+    private int kundenGenerated = 0;
     private Warteschlange warteschlange1;
     private Warteschlange warteschlange2;
 
@@ -19,9 +20,12 @@ public class Kundengenerator implements Runnable {
         while (!(Thread.interrupted())) {
             generateKunden();
             try {
-                Thread.sleep((long) (Math.random() * 1500) + 1);
+                Thread.sleep((long) (Math.random() * 5500) + 1);
             } catch (InterruptedException e) {
                 e.printStackTrace();
+            }
+            if(kundenGenerated == maxKunden){
+                break;
             }
         }
     }
@@ -34,6 +38,7 @@ public class Kundengenerator implements Runnable {
             Kunde kunde = new Kunde();
             added = warteschlange1.enter(kunde);
             if (added) {
+                kundenGenerated++;
                 System.err.println("Added Kunde " + kunde.getKundeId() + "  to Queue " + warteschlange1.getWarteschlangeId());
                 System.err.println("Schlangengroesse: " + warteschlange1.getSize() + "\n");
             } else {
@@ -43,6 +48,7 @@ public class Kundengenerator implements Runnable {
             Kunde kunde2 = new Kunde();
             added = warteschlange2.enter(kunde2);
             if (added) {
+                kundenGenerated++;
                 System.err.println("Added Kunde " + kunde2.getKundeId() + " to Queue " + warteschlange2.getWarteschlangeId());
                 System.err.println("Schlangengroesse: " + warteschlange2.getSize() + "\n");
             } else {
