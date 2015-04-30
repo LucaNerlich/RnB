@@ -8,7 +8,6 @@ public class Warteschlange<E> {
     private int maxSize;
 
 
-
     private LinkedList<E> warteschlange;
 
     public Warteschlange(int id, int maxSize) {
@@ -24,17 +23,25 @@ public class Warteschlange<E> {
      * Monitor
      */
     public synchronized boolean enter(E item) {
-        if (warteschlange.size() < maxSize) {
-
-            warteschlange.add(item);
-
-            // Alle Threads die in der Warteschlange (wait) werden geweckt
-            this.notifyAll();
-            return true;
-        } else {
-           // System.err.println("Schlange " + warteschlangeId + " voll!");
-            return false;
+        while (warteschlange.size() >= maxSize) {
+            try {
+                this.wait();
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                return false;
+            }
         }
+        // Alle Threads die in der Warteschlange (wait) werden geweckt
+        warteschlange.add(item);
+        System.err
+                .println("<= ENTER: "
+                        + Thread.currentThread().getName()
+                        + " hat ein Objekt aus dem Puffer: "
+                        + warteschlangeId
+                        + " genommen. Aktuelle Puffergroesse: "
+                        + warteschlange.size());
+        this.notifyAll();
+        return true;
     }
 
     /**
@@ -43,27 +50,49 @@ public class Warteschlange<E> {
      */
     public synchronized E remove() {
         E item;
-        if (warteschlange.size() == 0) {
-           //  System.err.println("Couldnt remove First, Queue is empty.");
-            item = null;
-        } else {
-            item = warteschlange.removeFirst();
-            // informiert alle wartenden Threads
-            this.notifyAll();
+        while (warteschlange.size() == 0) {
+            try {
+                this.wait();
+            } catch (InterruptedException e) {
+
+                Thread.currentThread().interrupt();
+                return null;
+            }
         }
+        item = warteschlange.removeFirst();
+        System.err
+                .println("<= REMOVE: "
+                        + Thread.currentThread().getName()
+                        + " hat ein Objekt aus dem Puffer: "
+                        + warteschlangeId
+                        + " genommen. Aktuelle Puffergroesse: "
+                        + warteschlange.size());
+        // informiert alle wartenden Threads
+        this.notifyAll();
+
         return item;
     }
 
     public synchronized E getFirst() {
         E item;
 
-        if (warteschlange.size() == 0) {
-            // System.err.println("Couldnt get First, Queue is empty.");
-            item = null;
-        } else {
-            item = warteschlange.getFirst();
-            this.notifyAll();
+        while (warteschlange.size() == 0) {
+            try {
+                this.wait();
+            } catch (InterruptedException e) {
+
+                Thread.currentThread().interrupt();
+                return null;
+            }
         }
+        item = warteschlange.getFirst();
+        System.err
+                .println("<= GETFIRST: "
+                        + Thread.currentThread().getName()
+                        + " hat ein Objekt aus dem Puffer: "
+                        + warteschlangeId
+                        + " angeguckt.");
+        this.notifyAll();
         return item;
     }
 
