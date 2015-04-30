@@ -7,14 +7,32 @@ public class Kunde {
     private long createdWhen;
     private long placedOrderAt;
     private long orderFinishedAt;
+    private int anzahlBurgerBestellt;
 
     public Kunde() {
         createdWhen = System.currentTimeMillis();
         kundeId++;
-        name = "" + kundeId;
+        name = "kunde_" + kundeId;
+        createdWhen = System.currentTimeMillis();
+        generateOrder();
+    }
+
+
+
+    // generiert zwischen 1 und 8 "burger" fuer die Bestellung.
+    private void generateOrder() {
+        anzahlBurgerBestellt = (int) (Math.random() * 8) + 1;
     }
 
     public int getKundeId() {
         return kundeId;
+    }
+
+    public int getAnzahlBurgerBestellt() {
+        return anzahlBurgerBestellt;
+    }
+
+    public String getName() {
+        return name;
     }
 }

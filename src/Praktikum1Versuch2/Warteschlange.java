@@ -35,7 +35,7 @@ public class Warteschlange<E> {
         warteschlange.add(item);
         /*
         System.err
-                .println("<= ENTER: "
+                .println("[WS] __   ENTER: "
                         + Thread.currentThread().getName()
                         + " hat ein Objekt in dem Puffer: "
                         + warteschlangeId
@@ -62,14 +62,16 @@ public class Warteschlange<E> {
             }
         }
         item = warteschlange.removeFirst();
+        /*
         System.err
-                .println("<= REMOVE: "
+                .println("[WS] __ REMOVE "
                         + Thread.currentThread().getName()
                         + " hat ein Objekt aus dem Puffer: "
                         + warteschlangeId
                         + " genommen. Aktuelle Puffergroesse: "
                         + warteschlange.size()
                         + "\n");
+                        */
         // informiert alle wartenden Threads
         this.notifyAll();
 
@@ -89,12 +91,14 @@ public class Warteschlange<E> {
             }
         }
         item = warteschlange.getFirst();
+        /*
         System.err
-                .println("<= GETFIRST: "
+                .println("[WS] __  : GET "
                         + Thread.currentThread().getName()
                         + " hat ein Objekt aus dem Puffer: "
                         + warteschlangeId
                         + " angeguckt.");
+                        */
         this.notifyAll();
         return item;
     }
