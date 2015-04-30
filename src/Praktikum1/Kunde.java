@@ -3,6 +3,7 @@ package Praktikum1;
 public class Kunde {
 
     private static int kundeId = 0;
+    private String fromQueue;
     private Order order;
     private long waitingTime = 0; // per Systemzeit ausrechnen.
     private long createdWhen;
@@ -10,10 +11,11 @@ public class Kunde {
     private long orderFinishedAt;
 
 
-    public Kunde() {
+    public Kunde(String fromQueue) {
         createdWhen = System.currentTimeMillis();
         kundeId++;
         generateBestellung();
+        this.fromQueue = fromQueue;
     }
 
     public void generateBestellung() {
@@ -37,5 +39,9 @@ public class Kunde {
     public void saveOrderFinishedTime(){
         orderFinishedAt = System.currentTimeMillis();
         waitingTime += (orderFinishedAt - waitingTime);
+    }
+
+    public String getFromQueue() {
+        return fromQueue;
     }
 }

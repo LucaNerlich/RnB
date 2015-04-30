@@ -67,8 +67,8 @@ public class Servicekraft implements Runnable {
                 currentOrder = kunde.getOrder();
                 acceptedOrders++;
 
-                System.err.println("--> Bestellung des Kunden " + kunde.getKundeId() + " wurde angenommen.");
-                System.err.println("--> Bearbeitet von SK: " + id);
+                System.err.println("--> Bestellung des Kunden " + kunde.getKundeId() + " queue: " + kunde.getFromQueue() + " wurde angenommen.");
+                System.err.println("--> Bearbeitet von SK: " + Thread.currentThread().getName());
                 System.err.println("--> Kunde " + kunde.getKundeId() + " wartet. \n");
 
                 kunde.getOrder().setWirdBearbeitetVon(this); // wird gebraucht um spaeter currentOrderFinished auf true zu setzen.
@@ -91,6 +91,7 @@ public class Servicekraft implements Runnable {
 
     private synchronized void increaseBurgersToMake(Order currentOrder) {
         burgersToMake += currentOrder.getCounterBurgerBestellt();
+        this.notifyAll();
     }
 
     private void finishOrder() {
@@ -103,7 +104,7 @@ public class Servicekraft implements Runnable {
                 if (burger != null) {
                     currentOrder.addBurgerToOrder();
                     burgersReady++;
-                    System.err.println("--> Burger successfully added to order " + currentOrder.getOwner().getKundeId());
+                    //System.err.println("--> Burger successfully added to order " + currentOrder.getOwner().getKundeId());
                 }
             }
             currentOrder.getOwner().saveOrderFinishedTime();
@@ -113,14 +114,14 @@ public class Servicekraft implements Runnable {
             Kunde ownerRemoved = (Kunde) warteSchlange.remove();
 
             if (ownerRemoved != null) {
-                System.err.println("--> Kunde " + ownerRemoved.getKundeId() + " order " + ownerRemoved.getOrder().getOrderId() + " finished. removed");
+                System.err.println("--> Kunde " + ownerRemoved.getKundeId() +  " queue: " + ownerRemoved.getFromQueue() + " order " + ownerRemoved.getOrder().getOrderId() + " finished. removed");
                 System.err.println("--> Kunde hat Rechung bezahlt. Verlaesst den Laden.");
-                System.err.println("--> By SK " + id);
+                System.err.println("--> By SK " + Thread.currentThread().getName());
                 finishedOrders++;
                 currentOrder = null;
 
             } else {
-                System.err.println("--> Error while removing by SK " + id);
+                System.err.println("--> Error while removing by SK " + Thread.currentThread().getName());
             }
         }
     }

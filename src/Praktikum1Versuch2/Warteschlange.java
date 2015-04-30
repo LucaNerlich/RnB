@@ -1,4 +1,4 @@
-package Praktikum1;
+package Praktikum1Versuch2;
 
 import java.util.LinkedList;
 
