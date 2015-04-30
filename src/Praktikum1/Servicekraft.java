@@ -76,6 +76,13 @@ public class Servicekraft implements Runnable {
 
                 // bestellte Burger an Kueche weiterleiten.
                 increaseBurgersToMake(currentOrder);
+
+                long timeCache = (long) ((Math.random() * 5000) + 5000); // zwischen 5 und 10 sekunden.
+                try {
+                    Thread.sleep(timeCache);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             } else {
                 System.err.println("--> Kundewarteschlange ist leer.");
             }
@@ -110,14 +117,6 @@ public class Servicekraft implements Runnable {
                 System.err.println("--> By SK " + id);
                 finishedOrders++;
                 currentOrder = null;
-
-                // kunde verlaesst den laden. Simuliert durchs warten der SK
-                long timeCache2 = (long) ((Math.random() * 500) + 501); // zwischen 5 und 10 sekunden.
-                try {
-                    Thread.sleep(timeCache2);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
 
             } else {
                 System.err.println("--> Error while removing by SK " + id);

@@ -27,24 +27,27 @@ public class Kundengenerator implements Runnable {
     }
 
     private void generateKunden() {
-        Kunde kunde = new Kunde();
+
         boolean added = false;
-        // FUNKTIONIERT NICHT. Sobald id 0 voll ist, haengt er sich auf.
-        int rndm = (int) ((Math.random() * 2) + 1); // 50/50 auf die beiden Quese verteilen. Else sollte nicht erreicht werden.
-        if (rndm == 1) {
+        double rndm = Math.random(); // 50/50 auf die beiden Quese verteilen. Else sollte nicht erreicht werden.
+        if (rndm < 0.5) {
+            Kunde kunde = new Kunde();
             added = warteschlange1.enter(kunde);
             if (added) {
                 System.err.println("Added Kunde " + kunde.getKundeId() + "  to Queue " + warteschlange1.getWarteschlangeId());
                 System.err.println("Schlangengroesse: " + warteschlange1.getSize() + "\n");
+            } else {
+                //System.err.println("SCHLANGE 1 VOLL");
             }
-        } else if (rndm == 2) {
-            added = warteschlange2.enter(kunde);
+        } else if (rndm > 0.5) {
+            Kunde kunde2 = new Kunde();
+            added = warteschlange2.enter(kunde2);
             if (added) {
-                System.err.println("Added Kunde " + kunde.getKundeId() + " to Queue " + warteschlange2.getWarteschlangeId());
+                System.err.println("Added Kunde " + kunde2.getKundeId() + " to Queue " + warteschlange2.getWarteschlangeId());
                 System.err.println("Schlangengroesse: " + warteschlange2.getSize() + "\n");
+            } else {
+                //System.err.println("SCHLANGE 2 VOLL");
             }
-        } else {
-            System.out.println("Math Random Error");
         }
 
         if (!added) {

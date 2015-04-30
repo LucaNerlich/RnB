@@ -17,7 +17,6 @@ package Praktikum1;
 public class Main {
 
     public static void main(String[] args) {
-        Kueche kueche = new Kueche();
 
         Warteschlange kundenWS1 = new Warteschlange(0, 10); // ID = 1 wichtig fuer Order zuordnung.
         Warteschlange kundenWS2 = new Warteschlange(1, 10); // ID = 2

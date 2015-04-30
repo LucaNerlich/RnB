@@ -28,13 +28,11 @@ public class Warteschlange<E> {
 
             warteschlange.add(item);
 
-
-
             // Alle Threads die in der Warteschlange (wait) werden geweckt
             this.notifyAll();
             return true;
         } else {
-            System.err.println("Schlange " + warteschlangeId + " voll!");
+           // System.err.println("Schlange " + warteschlangeId + " voll!");
             return false;
         }
     }
