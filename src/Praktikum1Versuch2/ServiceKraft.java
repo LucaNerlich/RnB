@@ -24,20 +24,19 @@ public class ServiceKraft implements Runnable {
 
             getBurgerFromKitchen();
             counterFertigeBestellungen++;
+
+            History.getInstance().addStringToAusgabe("\n[SK_" + Thread.currentThread().getName() + "] __ "
+                    + kunde.getName() + " Hat bezahlt und seine Bestellung erhalten und verlaesst den Laden.");
+
+            //System.err.println("\n[SK_" + Thread.currentThread().getName() + "] __ "
+            //       + kunde.getName() + " Hat bezahlt und seine Bestellung erhalten und verlaesst den Laden.");
+
             kunde = null;
             kundenQueue.remove();
-            System.err.println("\n[SK_" + Thread.currentThread().getName() + "] __ "
-                    + kunde.getName() + " Hat bezahlt und seine Bestellung erhalten.");
 
-            // todo wenn bestellung done, remove kunde, setz kunde auf null
+            // todo bevor der kunde entfernt wird, muss noch eine zufallzeit fuers laden verlassen abgespeichert werden.
 
 
-            try {
-                // sleep for 0 - 2 sec
-                Thread.sleep((long) (Math.random() * 2000));
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
         }
     }
 
@@ -49,8 +48,18 @@ public class ServiceKraft implements Runnable {
 
             bestellung = kunde.getBestellung();
 
-            System.err.println("\n[SK_" + Thread.currentThread().getName() + "] __ "
+            try {
+                // sleep for 5 - 10 sec
+                Thread.sleep((long) ((Math.random() * 5000) + 5000));
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            History.getInstance().addStringToAusgabe("\n[SK_" + Thread.currentThread().getName() + "] __ "
                     + kunde.getName() + " will: " + bestellung.getAnzahlBurgerBestellt() + " Burger.");
+
+            //System.err.println("\n[SK_" + Thread.currentThread().getName() + "] __ "
+            //      + kunde.getName() + " will: " + bestellung.getAnzahlBurgerBestellt() + " Burger.");
 
             // ueberhaupt noetig?
             // bestellQueue.enterBurger(bestellung);
@@ -63,7 +72,10 @@ public class ServiceKraft implements Runnable {
         //scheduler verhindert deadlocks
         while (Scheduler.getInstance().isMyTurn(this) && (burgerLaufband.getSize() >= bestellung.getAnzahlBurgerBestellt())) {
             for (int i = 0; i <= bestellung.getAnzahlBurgerBestellt(); i++) {
-                burgerLaufband.remove();
+                if(burgerLaufband.remove() != null) {
+                    History.getInstance().addStringToAusgabe("\n[SK_" + Thread.currentThread().getName() + "] __ Hat einen Burger vom Band genommen.");
+                }
+                //  System.err.println("\n[SK_" + Thread.currentThread().getName() + "] __ Hat einen Burger vom Band genommen.");
             }
         }
         kunde.setOrderFinishedAt(System.currentTimeMillis());

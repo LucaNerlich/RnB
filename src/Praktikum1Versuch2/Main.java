@@ -4,6 +4,11 @@ public class Main {
 
     public static void main(String[] args) {
 
+        //singleton
+        History.getInstance();
+        Thread tHS = new Thread(History.getInstance());
+        tHS.start();
+
         Warteschlange queue1 = new Warteschlange(1, 10); // haellt Kunden
         Warteschlange queue2 = new Warteschlange(2, 10); // haellt Kunden
         Warteschlange burgerLaufband = new Warteschlange(3, 12); // haellt "Burger"

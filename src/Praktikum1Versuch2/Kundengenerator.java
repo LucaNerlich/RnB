@@ -19,11 +19,7 @@ public class Kundengenerator implements Runnable {
         // add timer, then interrupt?
         while (!(Thread.interrupted())) {
             generateKunden();
-            try {
-                Thread.sleep((long) (Math.random() * 500) + 1);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+
             if (kundenGenerated == maxKunden) {
                 break;
             }
@@ -32,23 +28,43 @@ public class Kundengenerator implements Runnable {
 
     private void generateKunden() {
 
+        try {
+            Thread.sleep((long) (Math.random() * 5000));
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         Kunde kunde = new Kunde();
-        boolean added = false;
-        double rndm = Math.random(); // 50/50 auf die beiden Quese verteilen. Else sollte nicht erreicht werden.
-        if (rndm < 0.5) {
+        boolean added;
+
+        int ws1Size = warteschlange1.getSize();
+        int ws2Size = warteschlange2.getSize();
+
+        if (ws1Size <= ws2Size) {
             added = warteschlange1.enter(kunde);
             if (added) {
                 kundenGenerated++;
-                System.err.println("[KG] __ Added " + kunde.getName() + "  to Queue " + warteschlange1.getWarteschlangeId());
+
+                History.getInstance().addStringToAusgabe("[KG] __ Added " + kunde.getName() + " to Queue " +
+                        warteschlange1.getWarteschlangeId()
+                        + "[" + warteschlange1.getSize() + "; " + warteschlange2.getSize() + "]");
+
+
+                // System.err.println("[KG] __ Added " + kunde.getName() + " to Queue " + warteschlange1.getWarteschlangeId());
                 // System.err.println("Order: " + kunde.getOrder().getOrderId());
                 // System.err.println("Schlangengroesse: " + warteschlange1.getSize() + "\n");
             }
-        } else if (rndm > 0.5) {
+        } else {
             added = warteschlange2.enter(kunde);
             if (added) {
                 kundenGenerated++;
-                System.err.println("[KG] __ Added " + kunde.getName() + " to Queue " + warteschlange2.getWarteschlangeId());
-                //  System.err.println("Order: " + kunde2.getOrder().getOrderId());
+
+                History.getInstance().addStringToAusgabe("[KG] __ Added " + kunde.getName() + " to Queue " +
+                        warteschlange2.getWarteschlangeId()
+                        + "[" + warteschlange1.getSize() + "; " + warteschlange2.getSize() + "]");
+
+                // System.err.println("[KG] __ Added " + kunde.getName() + " to Queue " + warteschlange2.getWarteschlangeId());
+                // System.err.println("Order: " + kunde2.getOrder().getOrderId());
                 // System.err.println("Schlangengroesse: " + warteschlange2.getSize() + "\n");
             }
         }
