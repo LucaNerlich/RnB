@@ -10,7 +10,7 @@ public class History implements Runnable {
         warteschlange = new Warteschlange(5, 50);
     }
 
-    public static History getInstance() {
+    public synchronized static History getInstance() {
         if (instance == null) {
             History.instance = new History();
         }

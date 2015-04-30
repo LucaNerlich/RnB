@@ -24,9 +24,9 @@ public class Main {
         Scheduler.getInstance().addSK(sk1);
         Scheduler.getInstance().addSK(sk2);
 
-        BurgerBrater bk1 = new BurgerBrater(bestellungenQueue, burgerLaufband);
-        BurgerBrater bk2 = new BurgerBrater(bestellungenQueue, burgerLaufband);
-        BurgerBrater bk3 = new BurgerBrater(bestellungenQueue, burgerLaufband);
+        BurgerBrater bk1 = new BurgerBrater(burgerLaufband);
+        BurgerBrater bk2 = new BurgerBrater(burgerLaufband);
+        BurgerBrater bk3 = new BurgerBrater(burgerLaufband);
 
         Thread tKG = new Thread(kg);
 

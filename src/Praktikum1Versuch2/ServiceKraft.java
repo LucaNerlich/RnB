@@ -51,7 +51,7 @@ public class ServiceKraft implements Runnable {
                 e.printStackTrace();
             }
 
-            History.getInstance().addStringToAusgabe("\n[SK_" + Thread.currentThread().getName() + "] __ "
+            History.getInstance().addStringToAusgabe("[SK_" + Thread.currentThread().getName() + "] __ "
                     + kunde.getName() + " will: " + bestellung.getAnzahlBurgerBestellt() + " Burger.");
 
             //System.err.println("\n[SK_" + Thread.currentThread().getName() + "] __ "
@@ -64,13 +64,27 @@ public class ServiceKraft implements Runnable {
         //burger werden einfach geloescht, kunde hat damit alle erhalten
 
         //scheduler verhindert deadlocks
-        while (Scheduler.getInstance().isMyTurn(this) && (burgerLaufband.getSize() >= bestellung.getAnzahlBurgerBestellt())) {
-            for (int i = 0; i <= bestellung.getAnzahlBurgerBestellt(); i++) {
-                if(burgerLaufband.remove() != null) {
-                    History.getInstance().addStringToAusgabe("\n[SK_" + Thread.currentThread().getName() + "] __ Hat einen Burger vom Band genommen.");
+        // TODO BRICHT ZU FRUEH AB!!!
+        //System.err.println("######## LB SIZE " + burgerLaufband.getSize());
+        //System.err.println("######## BG BESTELLT " + bestellung.getAnzahlBurgerBestellt());
+        //System.err.println("@@@@@@@@@@@ SCHEDULER TRUE??" + Scheduler.getInstance().isMyTurn(this));
+
+        int gewuenschteBurger = bestellung.getAnzahlBurgerBestellt();
+        int burgerGeholt = 0;
+
+        //while (Scheduler.getInstance().isMyTurn(this) && (burgerLaufband.getSize() >= bestellung.getAnzahlBurgerBestellt())) {
+        while (Scheduler.getInstance().isMyTurn(this) && (burgerGeholt < gewuenschteBurger)) {
+         //   System.err.println("%%%%%%%%% IN WHILE %%%%%%%%%%%");
+            //for (int i = 0; i <= bestellung.getAnzahlBurgerBestellt(); i++) {
+                if (burgerLaufband.remove() != null) {
+                    burgerGeholt++;
+                    History.getInstance().addStringToAusgabe("[SK_" + Thread.currentThread().getName()
+                            + "] __ Hat einen Burger vom Band genommen."
+                    + "Es fehlen noch: " + (gewuenschteBurger - burgerGeholt)
+                    + " Burger.");
                 }
                 //  System.err.println("\n[SK_" + Thread.currentThread().getName() + "] __ Hat einen Burger vom Band genommen.");
-            }
+           // }
         }
         kunde.setOrderFinishedAt(System.currentTimeMillis());
     }

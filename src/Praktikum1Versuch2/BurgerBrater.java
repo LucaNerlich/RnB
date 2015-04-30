@@ -2,11 +2,9 @@ package Praktikum1Versuch2;
 
 public class BurgerBrater implements Runnable {
 
-    private Warteschlange bestellungenQueue;
     private Warteschlange burgerLaufband;
 
-    public BurgerBrater(Warteschlange bestellungenQueue, Warteschlange burgerLaufband) {
-        this.bestellungenQueue = bestellungenQueue;
+    public BurgerBrater(Warteschlange burgerLaufband) {
         this.burgerLaufband = burgerLaufband;
     }
 
@@ -22,16 +20,16 @@ public class BurgerBrater implements Runnable {
 
         // todo scheduler muss anzahl Burger ueberwachen
 
-            try {
-                // sleep for 10 - 20 sec
-                Thread.sleep((long) ((Math.random() * 10000) + 10000));
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+        try {
+            // sleep for 10 - 20 sec
+            Thread.sleep((long) ((Math.random() * 10000) + 10000));
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         burgerLaufband.enter(new Burger());
         History.getInstance().addStringToAusgabe("[BB_" + Thread.currentThread().getName()
-                + "] __ 1 Burger aufs Laufband gelegt. LaufbandSize: " + burgerLaufband.getSize());
+                + "] __ 1 Burger aufs Laufband gelegt.");
         //System.err.println("[BB_" + Thread.currentThread().getName() + "] __ 1 Burger aufs Laufband gelegt.");
     }
 }
