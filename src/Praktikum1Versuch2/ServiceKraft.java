@@ -23,8 +23,11 @@ public class ServiceKraft implements Runnable {
             getBurgerFromKitchen();
             counterFertigeBestellungen++;
 
+            kunde.setReceivedOrder(true);
+            kunde.calculateAndSetWaitingTime();
             History.getInstance().addStringToAusgabe("\n[SK_" + Thread.currentThread().getName() + "] __ "
-                    + kunde.getName() + " Hat bezahlt und seine Bestellung erhalten und verlaesst den Laden.");
+                    + kunde.getName() + " Hat bezahlt und seine Bestellung erhalten und verlaesst den Laden."
+                    + "Er hat " + kunde.getWaitingTime() + " Sekunden lang gewartet.");
 
             //System.err.println("\n[SK_" + Thread.currentThread().getName() + "] __ "
             //       + kunde.getName() + " Hat bezahlt und seine Bestellung erhalten und verlaesst den Laden.");
@@ -71,15 +74,15 @@ public class ServiceKraft implements Runnable {
         //while (Scheduler.getInstance().isMyTurn(this) && (burgerLaufband.getSize() >= bestellung.getAnzahlBurgerBestellt())) {
         while (Scheduler.getInstance().isMyTurn(this) && (burgerGeholt < gewuenschteBurger)) {
             //for (int i = 0; i <= bestellung.getAnzahlBurgerBestellt(); i++) {
-                if (burgerLaufband.remove() != null) {
-                    burgerGeholt++;
-                    History.getInstance().addStringToAusgabe("[SK_" + Thread.currentThread().getName()
-                            + "] __ Hat einen Burger vom Band genommen."
-                    + "Es fehlen noch: " + (gewuenschteBurger - burgerGeholt)
-                    + " Burger.");
-                }
-                //  System.err.println("\n[SK_" + Thread.currentThread().getName() + "] __ Hat einen Burger vom Band genommen.");
-           // }
+            if (burgerLaufband.remove() != null) {
+                burgerGeholt++;
+                History.getInstance().addStringToAusgabe("[SK_" + Thread.currentThread().getName()
+                        + "] __ Hat einen Burger vom Band genommen."
+                        + "Es fehlen noch: " + (gewuenschteBurger - burgerGeholt)
+                        + " Burger.");
+            }
+            //  System.err.println("\n[SK_" + Thread.currentThread().getName() + "] __ Hat einen Burger vom Band genommen.");
+            // }
         }
         kunde.setOrderFinishedAt(System.currentTimeMillis());
     }

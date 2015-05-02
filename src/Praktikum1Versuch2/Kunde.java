@@ -8,6 +8,7 @@ public class Kunde {
     private long placedOrderAt;
     private long orderFinishedAt;
     private Bestellung bestellung;
+    private boolean receivedOrder = false;
 
     public Kunde() {
         createdWhen = System.currentTimeMillis();
@@ -47,5 +48,35 @@ public class Kunde {
 
     public void setOrderFinishedAt(long orderFinishedAt) {
         this.orderFinishedAt = orderFinishedAt;
+    }
+
+    public long getCreatedWhen() {
+        return createdWhen;
+    }
+
+    public long getPlacedOrderAt() {
+        return placedOrderAt;
+    }
+
+    // calculates time from placing order till recveiving burgers
+    public void calculateAndSetWaitingTime() {
+        if ((placedOrderAt > 0) && (orderFinishedAt > 0)) {
+            waitingTime = (orderFinishedAt - placedOrderAt) / 1000;
+        }
+        // save starttime in currenttimemillis
+        // save end time
+        // (end - start)/1000 = time taken in seconds
+    }
+
+    public boolean isReceivedOrder() {
+        return receivedOrder;
+    }
+
+    public void setReceivedOrder(boolean receivedOrder) {
+        this.receivedOrder = receivedOrder;
+    }
+
+    public long getWaitingTime() {
+        return waitingTime;
     }
 }

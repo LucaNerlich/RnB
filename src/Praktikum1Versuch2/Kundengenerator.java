@@ -45,10 +45,8 @@ public class Kundengenerator implements Runnable {
             if (added) {
                 kundenGenerated++;
 
-                History.getInstance().addStringToAusgabe("[KG] __ Added " + kunde.getName() + " to Queue " +
-                        warteschlange1.getWarteschlangeId()
+                History.getInstance().addStringToAusgabe("[KG] __ Added " + kunde.getName() + " to Queue "
                         + "[" + warteschlange1.getSize() + "; " + warteschlange2.getSize() + "]");
-
 
                 // System.err.println("[KG] __ Added " + kunde.getName() + " to Queue " + warteschlange1.getWarteschlangeId());
                 // System.err.println("Order: " + kunde.getOrder().getOrderId());
