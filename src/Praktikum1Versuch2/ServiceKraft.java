@@ -25,17 +25,15 @@ public class ServiceKraft implements Runnable {
 
             kunde.setReceivedOrder(true);
             kunde.calculateAndSetWaitingTime();
+
             History.getInstance().addStringToAusgabe("\n[SK_" + Thread.currentThread().getName() + "] __ "
                     + kunde.getName() + " Hat bezahlt und seine Bestellung erhalten und verlaesst den Laden."
-                    + "Er hat " + kunde.getWaitingTime() + " Sekunden lang gewartet.");
-
-            //System.err.println("\n[SK_" + Thread.currentThread().getName() + "] __ "
-            //       + kunde.getName() + " Hat bezahlt und seine Bestellung erhalten und verlaesst den Laden.");
+                    + " Er hat " + kunde.getWaitingTime() + " Sekunden lang gewartet.");
 
             kunde = null;
             kundenQueue.remove();
 
-            // todo bevor der kunde entfernt wird, muss noch eine zufallzeit fuers laden verlassen abgespeichert werden.
+
         }
     }
 
@@ -56,24 +54,21 @@ public class ServiceKraft implements Runnable {
 
             History.getInstance().addStringToAusgabe("[SK_" + Thread.currentThread().getName() + "] __ "
                     + kunde.getName() + " will: " + bestellung.getAnzahlBurgerBestellt() + " Burger.");
-
-            //System.err.println("\n[SK_" + Thread.currentThread().getName() + "] __ "
-            //      + kunde.getName() + " will: " + bestellung.getAnzahlBurgerBestellt() + " Burger.");
-
         }
     }
 
+    /**
+     * finishes the order
+     * asks the scheduler for permission to grab burger from queue.
+     */
     private void getBurgerFromKitchen() {
         //burger werden einfach geloescht, kunde hat damit alle erhalten
-
         //scheduler verhindert deadlocks
 
         int gewuenschteBurger = bestellung.getAnzahlBurgerBestellt();
         int burgerGeholt = 0;
 
-        //while (Scheduler.getInstance().isMyTurn(this) && (burgerLaufband.getSize() >= bestellung.getAnzahlBurgerBestellt())) {
         while (Scheduler.getInstance().isMyTurn(this) && (burgerGeholt < gewuenschteBurger)) {
-            //for (int i = 0; i <= bestellung.getAnzahlBurgerBestellt(); i++) {
             if (burgerLaufband.remove() != null) {
                 burgerGeholt++;
                 History.getInstance().addStringToAusgabe("[SK_" + Thread.currentThread().getName()
@@ -81,8 +76,6 @@ public class ServiceKraft implements Runnable {
                         + "Es fehlen noch: " + (gewuenschteBurger - burgerGeholt)
                         + " Burger.");
             }
-            //  System.err.println("\n[SK_" + Thread.currentThread().getName() + "] __ Hat einen Burger vom Band genommen.");
-            // }
         }
         kunde.setOrderFinishedAt(System.currentTimeMillis());
     }

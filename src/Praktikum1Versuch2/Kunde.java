@@ -18,6 +18,7 @@ public class Kunde {
         generateOrder();
     }
 
+    // todo bevor der kunde entfernt wird, muss noch eine zufallzeit fuers laden verlassen abgespeichert werden.
 
     // generiert zwischen 1 und 8 "burger" fuer die Bestellung.
     private void generateOrder() {

@@ -4,15 +4,13 @@ import java.util.LinkedList;
 
 public class Warteschlange<E> {
 
-    private int warteschlangeId;
     private int maxSize;
 
 
     private LinkedList<E> warteschlange;
 
-    public Warteschlange(int id, int maxSize) {
+    public Warteschlange(int maxSize) {
         this.warteschlange = new LinkedList<E>();
-        warteschlangeId = id;
         this.maxSize = maxSize;
     }
 
@@ -27,48 +25,8 @@ public class Warteschlange<E> {
             // Alle Threads die in der Warteschlange (wait) werden geweckt
             this.notifyAll();
             added = true;
-        /*
-        System.err
-                .println("[WS] __   ENTER: "
-                        + Thread.currentThread().getName()
-                        + " hat ein Objekt in dem Puffer: "
-                        + warteschlangeId
-                        + " gelegt. Aktuelle Puffergroesse: "
-                        + warteschlange.size()
-                        + "\n"); */
-
         }
         return added;
-    }
-
-    /**
-     * Producer (Erzeuger) rufen die Methode enter() auf Diese legt das item in
-     * den Puffer mit der add() Methode Synchronized da es sich um einen
-     * kritischen Bereich handelt, wird in die Pufferliste geschrieben ->
-     * Monitor
-     */
-    public synchronized boolean enterBurger(E item) {
-        while (warteschlange.size() >= maxSize) {
-            try {
-                this.wait();
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-                return false;
-            }
-        }
-        // Alle Threads die in der Warteschlange (wait) werden geweckt
-        warteschlange.add(item);
-        /*
-        System.err
-                .println("[WS] __   ENTER: "
-                        + Thread.currentThread().getName()
-                        + " hat ein Objekt in dem Puffer: "
-                        + warteschlangeId
-                        + " gelegt. Aktuelle Puffergroesse: "
-                        + warteschlange.size()
-                        + "\n"); */
-        this.notifyAll();
-        return true;
     }
 
     /**
@@ -87,16 +45,7 @@ public class Warteschlange<E> {
             }
         }
         item = warteschlange.removeFirst();
-        /*
-        System.err
-                .println("[WS] __ REMOVE "
-                        + Thread.currentThread().getName()
-                        + " hat ein Objekt aus dem Puffer: "
-                        + warteschlangeId
-                        + " genommen. Aktuelle Puffergroesse: "
-                        + warteschlange.size()
-                        + "\n");
-                        */
+
         // informiert alle wartenden Threads
         this.notifyAll();
 
@@ -116,27 +65,12 @@ public class Warteschlange<E> {
             }
         }
         item = warteschlange.getFirst();
-        /*
-        System.err
-                .println("[WS] __  : GET "
-                        + Thread.currentThread().getName()
-                        + " hat ein Objekt aus dem Puffer: "
-                        + warteschlangeId
-                        + " angeguckt.");
-                        */
+
         this.notifyAll();
         return item;
     }
 
     public int getSize() {
         return warteschlange.size();
-    }
-
-    public int getWarteschlangeId() {
-        return warteschlangeId;
-    }
-
-    public int getMaxSize() {
-        return maxSize;
     }
 }

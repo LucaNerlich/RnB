@@ -1,7 +1,5 @@
 package Praktikum1Versuch2;
 
-import org.omg.CORBA.INTERNAL;
-
 import java.util.ArrayList;
 
 public class Scheduler {
@@ -20,14 +18,17 @@ public class Scheduler {
         return Scheduler.instance;
     }
 
-    // eventuell synchro und wait?
+    /**
+     * tell the asking SK if its her turn to grab a burger.
+     * @param self
+     * @return
+     */
     public boolean isMyTurn(ServiceKraft self) {
         // wenn ich 3 weniger habe als der andere, darf er keine Burger nehmen.
 
         ServiceKraft sk = sks.get(0);
 
         // unsere bestellung ist kleiner
-
         int bestellteBurger = Integer.MAX_VALUE;
         for (ServiceKraft serviceKraft : sks) {
             if (serviceKraft.getBestellung() != null) {
@@ -45,7 +46,6 @@ public class Scheduler {
 
         // todo kein kunde darf laenger als ne max zeit warten.
 
-        // kleinere Bestellung hat prio
         return self.equals(sk);
     }
 

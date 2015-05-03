@@ -4,15 +4,14 @@ public class Main {
 
     public static void main(String[] args) {
 
-        //singleton
+        //singleton speichert sich in sich selbst
         History.getInstance();
         Thread tHS = new Thread(History.getInstance());
         tHS.start();
 
-        Warteschlange queue1 = new Warteschlange(1, 10); // haellt Kunden
-        Warteschlange queue2 = new Warteschlange(2, 10); // haellt Kunden
-        Warteschlange burgerLaufband = new Warteschlange(3, 12); // haellt "Burger"
-        Warteschlange bestellungenQueue = new Warteschlange(4, 2); // haellt int
+        Warteschlange queue1 = new Warteschlange(10); // haellt Kunden
+        Warteschlange queue2 = new Warteschlange(10); // haellt Kunden
+        Warteschlange burgerLaufband = new Warteschlange(12); // haellt "Burger"
 
         Kundengenerator kg = new Kundengenerator(25, queue1, queue2);
 

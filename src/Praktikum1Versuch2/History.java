@@ -1,5 +1,9 @@
 package Praktikum1Versuch2;
 
+/**
+ * collects and prints strings to the console.
+ * "needed" to ensure the correct order of console prints during multithreading.
+ */
 public class History implements Runnable {
 
     private Warteschlange warteschlange;
@@ -7,7 +11,7 @@ public class History implements Runnable {
 
 
     private History() {
-        warteschlange = new Warteschlange(5, 50);
+        warteschlange = new Warteschlange(50);
     }
 
     public synchronized static History getInstance() {
@@ -16,7 +20,6 @@ public class History implements Runnable {
         }
         return History.instance;
     }
-
 
     @Override
     public void run() {
@@ -28,6 +31,4 @@ public class History implements Runnable {
     public synchronized void addStringToAusgabe(String message) {
         warteschlange.enter(message);
     }
-
-
 }
