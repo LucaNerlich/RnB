@@ -30,6 +30,8 @@ public class ServiceKraft implements Runnable {
                     + kunde.getName() + " Hat bezahlt und seine Bestellung erhalten und verlaesst den Laden."
                     + " Er hat " + kunde.getWaitingTime() + " Sekunden lang gewartet.");
 
+            History.getInstance().addWaitingTimeToList(kunde.getWaitingTime());
+
             kunde = null;
             kundenQueue.remove();
 
