@@ -51,7 +51,7 @@ public class Kundengenerator implements Runnable {
             if (added) {
                 kundenGenerated++;
 
-                History.getInstance().addStringToAusgabe("[KG] __ Added " + kunde.getName() + " to Queue "
+                History.getInstance().addStringToAusgabe("[KG_" + Thread.currentThread().getName() + "] __ Added " + kunde.getName() + " to Queue "
                         + "[" + warteschlange1.getSize() + "; " + warteschlange2.getSize() + "]");
             }
         } else {
@@ -59,14 +59,14 @@ public class Kundengenerator implements Runnable {
             if (added) {
                 kundenGenerated++;
 
-                History.getInstance().addStringToAusgabe("[KG] __ Added " + kunde.getName() + " to Queue "
+                History.getInstance().addStringToAusgabe("[KG_" + Thread.currentThread().getName() + "] __ Added " + kunde.getName() + " to Queue "
                         + "[" + warteschlange2.getSize() + "; " + warteschlange2.getSize() + "]");
             }
         }
 
         if (!added) {
             counterAbgewiesen++;
-            System.err.println("[KG] __ Abgewiesen: " + counterAbgewiesen);
+            System.err.println("[KG_" + Thread.currentThread().getName() + "] __ Abgewiesen: " + counterAbgewiesen);
         }
     }
 }
