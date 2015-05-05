@@ -10,6 +10,9 @@ public class History implements Runnable {
 
     private Warteschlange warteschlange;
     private static History instance = null;
+    private int minimalTime = Integer.MAX_VALUE;
+    private int maximalTime = 0;
+    private int averageTime;
 
     // sammelt die Wartezeiten fuer die Berechnung der min. max und average.
     private ArrayList<Integer> waitingTimes = new ArrayList();
@@ -41,14 +44,30 @@ public class History implements Runnable {
         waitingTimes.add(waitingtime);
     }
 
-    public long getAverageWaitingTime(){
-        long averageTime = 0;
+    public void calculateWaitingTime(){
+        averageTime = 0;
 
         for(int time : waitingTimes){
+            if(time < minimalTime){
+                minimalTime = time;
+            }
+            if(time > maximalTime){
+                maximalTime = time;
+            }
             averageTime += time;
         }
         averageTime = (averageTime / waitingTimes.size());
+    }
 
+    public int getMinimalTime() {
+        return minimalTime;
+    }
+
+    public int getMaximalTime() {
+        return maximalTime;
+    }
+
+    public int getAverageTime() {
         return averageTime;
     }
 }
