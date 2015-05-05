@@ -64,6 +64,9 @@ public class Kunde {
         if ((placedOrderAt > 0) && (orderFinishedAt > 0)) {
             waitingTime = (orderFinishedAt - placedOrderAt) / 1000;
         }
+        //Zeit um den Laden zu verlassen: 10 - 20 Sekunden.
+        waitingTime += (int)((Math.random()* 10) + 10);
+
         // save starttime in currenttimemillis
         // save end time
         // (end - start)/1000 = time taken in seconds
