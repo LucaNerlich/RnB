@@ -12,7 +12,7 @@ public class History implements Runnable {
     private static History instance = null;
 
     // sammelt die Wartezeiten fuer die Berechnung der min. max und average.
-    private ArrayList waitingTimes = new ArrayList();
+    private ArrayList<Integer> waitingTimes = new ArrayList();
 
 
     private History() {
@@ -37,15 +37,17 @@ public class History implements Runnable {
         warteschlange.enter(message);
     }
 
-    public synchronized void addWaitingTimeToList(long waitingtime){
+    public synchronized void addWaitingTimeToList(int waitingtime){
         waitingTimes.add(waitingtime);
     }
 
     public long getAverageWaitingTime(){
         long averageTime = 0;
-        long cache;
 
-        //todo calculater average
+        for(int time : waitingTimes){
+            averageTime += time;
+        }
+        averageTime = (averageTime / waitingTimes.size());
 
         return averageTime;
     }

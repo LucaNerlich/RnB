@@ -25,12 +25,12 @@ public class ServiceKraft implements Runnable {
 
             kunde.setReceivedOrder(true);
             kunde.calculateAndSetWaitingTime();
+            History.getInstance().addWaitingTimeToList(kunde.getWaitingTime());
 
             History.getInstance().addStringToAusgabe("[SK_" + Thread.currentThread().getName() + "] __ "
                     + kunde.getName() + " Hat bezahlt und seine Bestellung erhalten und verlaesst den Laden."
-                    + " Er hat " + kunde.getWaitingTime() + " Sekunden lang gewartet.");
-
-            History.getInstance().addWaitingTimeToList(kunde.getWaitingTime());
+                    + " Er hat " + kunde.getWaitingTime() + " Sekunden lang gewartet. Durchschnittliche Wartezeit: "
+            + History.getInstance().getAverageWaitingTime());
 
             kunde = null;
             kundenQueue.remove();

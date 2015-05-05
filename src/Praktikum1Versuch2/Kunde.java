@@ -3,7 +3,7 @@ package Praktikum1Versuch2;
 public class Kunde {
     private static int kundeId = 0;
     private String name;
-    private long waitingTime = 0; // per Systemzeit ausrechnen.
+    private int waitingTime = 0; // per Systemzeit ausrechnen.
     private long createdWhen;
     private long placedOrderAt;
     private long orderFinishedAt;
@@ -62,7 +62,7 @@ public class Kunde {
     // calculates time from placing order till recveiving burgers
     public void calculateAndSetWaitingTime() {
         if ((placedOrderAt > 0) && (orderFinishedAt > 0)) {
-            waitingTime = (orderFinishedAt - placedOrderAt) / 1000;
+            waitingTime = (int)(orderFinishedAt - placedOrderAt) / 1000;
         }
         //Zeit um den Laden zu verlassen: 10 - 20 Sekunden.
         waitingTime += (int)((Math.random()* 10) + 10);
@@ -80,7 +80,7 @@ public class Kunde {
         this.receivedOrder = receivedOrder;
     }
 
-    public long getWaitingTime() {
+    public int getWaitingTime() {
         return waitingTime;
     }
 }
