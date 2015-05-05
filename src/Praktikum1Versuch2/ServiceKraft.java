@@ -26,7 +26,7 @@ public class ServiceKraft implements Runnable {
             kunde.setReceivedOrder(true);
             kunde.calculateAndSetWaitingTime();
 
-            History.getInstance().addStringToAusgabe("\n[SK_" + Thread.currentThread().getName() + "] __ "
+            History.getInstance().addStringToAusgabe("[SK_" + Thread.currentThread().getName() + "] __ "
                     + kunde.getName() + " Hat bezahlt und seine Bestellung erhalten und verlaesst den Laden."
                     + " Er hat " + kunde.getWaitingTime() + " Sekunden lang gewartet.");
 
@@ -88,5 +88,9 @@ public class ServiceKraft implements Runnable {
 
     public Bestellung getBestellung() {
         return bestellung;
+    }
+
+    public Warteschlange getKundenQueue() {
+        return kundenQueue;
     }
 }

@@ -20,6 +20,7 @@ public class Scheduler {
 
     /**
      * tell the asking SK if its her turn to grab a burger.
+     *
      * @param self
      * @return
      */
@@ -51,5 +52,34 @@ public class Scheduler {
 
     public void addSK(ServiceKraft serviceKraft) {
         sks.add(serviceKraft);
+    }
+
+    // burger: max 12 insgesamt, max 5 ohne bestellung, min 2 ohne bestellung
+
+    public boolean shouldMakeBurger(Warteschlange burgerLaufband) {
+        boolean makeBurger = false;
+        int anzahlBestellungen = 0;
+
+        for (ServiceKraft sk : sks) {
+            anzahlBestellungen += sk.getKundenQueue().getSize();
+        }
+
+        //min 1 Bestellung
+        if (anzahlBestellungen > 0) {
+            makeBurger = true;
+        } else {
+            //max 5 Burger ohne Bestellung.
+            if (burgerLaufband.getSize() <= 5) {
+                makeBurger = true;
+            }
+        }
+
+        //immer min 2 Burger auf dem Laufband.
+        if (burgerLaufband.getSize() <= 2) {
+            makeBurger = true;
+        }
+
+
+        return makeBurger;
     }
 }

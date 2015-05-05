@@ -11,6 +11,8 @@ public class Main {
 
         Warteschlange queue1 = new Warteschlange(10); // haellt Kunden
         Warteschlange queue2 = new Warteschlange(10); // haellt Kunden
+
+        //max 12 Burger auf dem Laufband.
         Warteschlange burgerLaufband = new Warteschlange(12); // haellt "Burger"
 
         Kundengenerator kg = new Kundengenerator(25, queue1, queue2);
