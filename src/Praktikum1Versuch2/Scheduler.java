@@ -25,28 +25,38 @@ public class Scheduler {
      * @return
      */
     public boolean isMyTurn(ServiceKraft self) {
-        // wenn ich 3 weniger habe als der andere, darf er keine Burger nehmen.
 
         ServiceKraft sk = sks.get(0);
 
-        // unsere bestellung ist kleiner
-        int bestellteBurger = Integer.MAX_VALUE;
-        for (ServiceKraft serviceKraft : sks) {
-            if (serviceKraft.getBestellung() != null) {
-                if (serviceKraft.getBestellung().getAnzahlBurgerBestellt() < bestellteBurger) {
-                    sk = serviceKraft;
+        // kunde hat laenger als Max gewartet.
+        // diese Abfrage hat Prio vor den anderen, deswegen if/else block
+        if (self.getBestellung().getOwner().hasWaitedTooLong()) {
+            sk = self;
+            History.getInstance().addStringToAusgabe("[SC_" + Thread.currentThread().getName() + "] __ "
+                    + self.getBestellung().getOwner().getName() + " Hat zulange gewartet: "
+                    + self.getBestellung().getOwner().hasWaitedTooLong());
+        } else {
+
+            // unsere bestellung ist kleiner
+            int bestellteBurger = Integer.MAX_VALUE;
+            for (ServiceKraft serviceKraft : sks) {
+                if (serviceKraft.getBestellung() != null) {
+                    if (serviceKraft.getBestellung().getAnzahlBurgerBestellt() < bestellteBurger) {
+                        // gewaehlte Servicekraft setzen um am Ende zu ueberpruefen.
+                        sk = serviceKraft;
+                    }
                 }
+            }
+
+            // wenn ich 3 weniger habe als der andere, darf er keine Burger nehmen.
+            // wir haben 3 weniger als der andere
+            boolean myTurn = ((self.getCounterFertigeBestellungen() - sk.getCounterFertigeBestellungen()) <= 3);
+            if (myTurn) {
+                sk = self;
             }
         }
 
-        // wir haben 3 weniger als der andere
-        boolean myTurn = ((self.getCounterFertigeBestellungen() - sk.getCounterFertigeBestellungen()) <= 3);
-        if (myTurn) {
-            sk = self;
-        }
-
-        // todo kein kunde darf laenger als ne max zeit warten.
-
+        //wenn true, sind wir dran.
         return self.equals(sk);
     }
 

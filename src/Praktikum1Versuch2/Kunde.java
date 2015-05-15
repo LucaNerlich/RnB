@@ -3,6 +3,7 @@ package Praktikum1Versuch2;
 public class Kunde {
     private static int kundeId = 0;
     private String name;
+    private int maxWaittime = 60;
     private int waitingTime = 0; // per Systemzeit ausrechnen.
     private long createdWhen;
     private long placedOrderAt;
@@ -18,18 +19,15 @@ public class Kunde {
         generateOrder();
     }
 
-    // todo bevor der kunde entfernt wird, muss noch eine zufallzeit fuers laden verlassen abgespeichert werden.
-
     // generiert zwischen 1 und 8 "burger" fuer die Bestellung.
     private void generateOrder() {
         int anzahlBurgerBestellt = (int) (Math.random() * 8) + 1;
-        bestellung = new Bestellung(anzahlBurgerBestellt);
+        bestellung = new Bestellung(this, anzahlBurgerBestellt);
     }
 
     public int getKundeId() {
         return kundeId;
     }
-
 
     public String getName() {
         return name;
@@ -82,5 +80,19 @@ public class Kunde {
 
     public int getWaitingTime() {
         return waitingTime;
+    }
+
+    // Abfrage ob der Kunde bereits laenger als gewuenscht gewartet hat
+    public boolean hasWaitedTooLong(){
+        boolean hasWaitedTooLong = false;
+
+        long currenttime = System.currentTimeMillis();
+        int cachetime = (int)((currenttime - placedOrderAt) / 1000);
+
+        if(cachetime >= maxWaittime){
+            hasWaitedTooLong = true;
+        }
+
+        return hasWaitedTooLong;
     }
 }
