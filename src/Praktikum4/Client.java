@@ -2,6 +2,7 @@ package Praktikum4;
 
 /**
  * Created by Luca Nerlich on 10.06.2015.
+ * http://de.wikibooks.org/wiki/Java_Standard:_Socket_ServerSocket_(java.net)_UDP_und_TCP_IP
  */
 import java.io.*;
 
