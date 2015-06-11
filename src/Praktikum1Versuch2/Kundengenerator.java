@@ -23,8 +23,11 @@ public class Kundengenerator implements Runnable {
             }
         }
 
-        // todo test ob stop
+        // zu viele abgewiesen. Erstellung wird gestoppt.
+        if(counterAbgewiesen > 30){
+            History.getInstance().addStringToAusgabe("[KG_" + Thread.currentThread().getName() + "] __ Erstellung Abgebrochen. Laden wird geschlossen.");
         Thread.currentThread().interrupt();
+        }
     }
 
     /**
