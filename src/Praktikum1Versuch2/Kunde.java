@@ -12,7 +12,6 @@ public class Kunde {
     private boolean receivedOrder = false;
 
     public Kunde() {
-        createdWhen = System.currentTimeMillis();
         kundeId++;
         name = "kunde_" + kundeId;
         createdWhen = System.currentTimeMillis();
