@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.net.Socket;
 
 /**
@@ -14,6 +15,15 @@ public class RaceHandler implements Runnable {
     @Override
     public void run() {
 
+        while (!Thread.interrupted()) {
+
+            try {
+                String userInput = String.valueOf(System.in.read());
+                System.out.println(userInput);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public Socket getSocket() {

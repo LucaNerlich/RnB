@@ -9,7 +9,7 @@ public class Main {
         ConnectionHandler connectionHandler = new ConnectionHandler(args[0], args[1]);
         RaceHandler raceHandler = new RaceHandler(connectionHandler.getConnection());
         Thread raceHandlerThread = new Thread(raceHandler);
-        raceHandler.run();
+        raceHandlerThread.start();
 
         System.out.println("Ich bin ein Race Client!");
 
