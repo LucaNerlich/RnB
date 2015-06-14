@@ -1,7 +1,7 @@
-import java.io.BufferedWriter;
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.Socket;
 
 /**
@@ -13,43 +13,31 @@ public class RaceHandler implements Runnable {
     int i = 0;
 
     public RaceHandler() {
-        //
+        socket = ConnectionHandler.getConnection();
     }
 
     @Override
     public void run() {
         try {
             while (!Thread.interrupted()) {
-
-
                 Thread.sleep(50);
-                socket = ConnectionHandler.getConnection();
 
-                /*
+                //establish writer
                 PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+                BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
 
+                //get input and send to server, via PW connected to Socket.
                 System.out.print("Enter something:");
-                String input = System.console().readLine();
-                if (input.equals("/HELP")) {
-                    ConnectionHandler.printAvailableFunctions();
-                }
-                out.print(input);
-                */
-
-                //Send the message to the server
-                OutputStream os = socket.getOutputStream();
-                OutputStreamWriter osw = new OutputStreamWriter(os);
-                BufferedWriter bw = new BufferedWriter(osw);
-
-                System.out.print("Enter something:");
-                String sendMessage = System.console().readLine();
-                if (sendMessage.equals("/HELP")) {
-                    ConnectionHandler.printAvailableFunctions();
-                } else {
-                    bw.write(sendMessage + i + "\n");
-                    bw.flush();
-                    System.out.println("Message sent to the server.");
-                    i++;
+                String userInput;
+                while ((userInput = stdIn.readLine()) != null) {
+                    if (userInput.equals("/HELP")) {
+                        ConnectionHandler.printAvailableFunctions();
+                    } else {
+                        out.println(userInput);
+                        //get message from server
+                        System.out.println("echo: " + in.readLine());
+                    }
                 }
             }
         } catch (IOException e) {
@@ -63,13 +51,5 @@ public class RaceHandler implements Runnable {
                 } catch (IOException e) {
                 }
         }
-    }
-
-    public Socket getSocket() {
-        return socket;
-    }
-
-    public void setSocket(Socket socket) {
-        this.socket = socket;
     }
 }

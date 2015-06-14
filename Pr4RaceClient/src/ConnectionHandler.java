@@ -10,8 +10,6 @@ public class ConnectionHandler {
     private static int port;
     private static ConnectionHandler instance = null;
     private static Socket socket = null;
-    private static Listener listener;
-    private static Thread listenerThread;
 
     private ConnectionHandler() {
         //
@@ -30,13 +28,9 @@ public class ConnectionHandler {
     }
 
     public static Socket getConnection() {
-
         try {
-            if (socket == null && listener == null) {
+            if (socket == null) {
                 socket = new Socket(ip, port);
-                listener = new Listener(ConnectionHandler.getConnection());
-                listenerThread = new Thread(listener);
-                listenerThread.start();
             }
         } catch (IOException e) {
             System.err.println("Error while creating Socket connection!");
@@ -48,11 +42,6 @@ public class ConnectionHandler {
         if (!socket.isClosed()) {
             socket.close();
             socket = null;
-        }
-        if (listenerThread.isAlive()) {
-            listenerThread.interrupt();
-            listener = null;
-            listenerThread = null;
         }
         System.out.println("Socket closed by Connection Handler");
     }

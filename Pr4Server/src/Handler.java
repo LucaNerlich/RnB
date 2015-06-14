@@ -20,6 +20,35 @@ public class Handler implements Runnable {
     @Override
     public void run() {
         try {
+            PrintWriter out = new PrintWriter(client.getOutputStream(), true);
+            BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()));
+
+            String inputLine;
+            String outputLine;
+
+            // Initiate conversation with client
+            RaceProtocol rP = new RaceProtocol();
+            outputLine = rP.processInput(null);
+            out.println(outputLine);
+
+            while ((inputLine = in.readLine()) != null) {
+                outputLine = rP.processInput(inputLine);
+                out.println(outputLine);
+                if (outputLine.equals("Bye."))
+                    break;
+            }
+
+
+
+
+
+
+
+
+
+
+
+
             /*
             Scanner in = new Scanner(client.getInputStream());
             PrintWriter out = new PrintWriter(client.getOutputStream(), true);
@@ -43,7 +72,7 @@ public class Handler implements Runnable {
 
             out.println("Message vom Server");
 
-            */
+
 
             InputStream is = client.getInputStream();
             InputStreamReader isr = new InputStreamReader(is);
@@ -61,6 +90,7 @@ public class Handler implements Runnable {
             System.out.println("Message sent to the client.");
             bw.flush();
 
+            */
 
         } catch (IOException e) {
             e.printStackTrace();
