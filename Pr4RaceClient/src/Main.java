@@ -10,7 +10,7 @@ public class Main {
 
         String ip = "127.0.0.1";
         String port = "3141";
-        //ConnectionHandler.setupConnection(ip, port);
+       // ConnectionHandler.setupConnection(ip, port);
         ConnectionHandler.setupConnection(args[0], args[1]);
         RaceHandler raceHandler = new RaceHandler();
 

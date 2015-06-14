@@ -1,4 +1,6 @@
 /**
+ * Application class for our list
+ *
  * @author (Daniel.Sommerlig@haw-hamburg.de) &
  *         (Lucasteffen.Nerlich@haw-hamburg.de)
  *         orietiert an https://docs.oracle.com/javase/tutorial/networking/sockets/clientServer.html
@@ -15,26 +17,15 @@ public class RaceProtocol {
         String theOutput = null;
         if (theInput != null) {
             if (theInput.equals("/HELP")) {
-                theOutput = "/HELP \n /INFO \n /REGcar \n /STARTrace \n";
+                theOutput = "Commands: '/HELP', '/INFO', '/EXIT'" + theInput;
+            } else if (theInput.equals("/INFO")) {
+                theOutput = "Server: INFO ";
+            } else if (theInput.equals("/START")) {
+                theOutput = "Race will start in 3 Seconds";
             } else if (theInput.equals("/EXIT")) {
-                //
-                /*
+                theOutput = "/EXIT";
             } else {
-                switch (state) {
-                    case WAITING:
-                        theOutput = "WAITING " + theInput;
-                        state = RACEONGOING;
-                        break;
-                    case RACEONGOING:
-                        theOutput = "RACE ONGOING " + theInput;
-                        state = RACEFINISHED;
-                        break;
-                    case RACEFINISHED:
-                        theOutput = "RACE FINISHED " + theInput;
-                        state = WAITING;
-                        break;
-                }
-            */
+                theOutput = "INVALID";
             }
         }
         return theOutput;

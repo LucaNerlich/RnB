@@ -1,6 +1,9 @@
+import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.TimeUnit;
 
@@ -11,11 +14,13 @@ public class NetworkHandler implements Runnable {
 
     private final ServerSocket serverSocket;
     private final ExecutorService pool;
+    private static ArrayList<PrintWriter> clients;
 
     public NetworkHandler(ExecutorService pool,
                           ServerSocket serverSocket) {
         this.serverSocket = serverSocket;
         this.pool = pool;
+        clients = new ArrayList();
     }
 
     public void run() { // run the service
@@ -29,6 +34,9 @@ public class NetworkHandler implements Runnable {
          der ServerSocket und der Socket des anfordernden Clients.
         */
                 Socket cs = serverSocket.accept();  //warten auf Client-Anforderung
+
+                //list of clients to send messages to
+                clients.add(new PrintWriter(cs.getOutputStream(), true));
 
                 //starte den Handler-Thread zur Realisierung der Client-Anforderung
                 pool.execute(new Handler(serverSocket, cs));
@@ -49,5 +57,9 @@ public class NetworkHandler implements Runnable {
             } catch (InterruptedException ei) {
             }
         }
+    }
+
+    public static ArrayList<PrintWriter> getClients() {
+        return clients;
     }
 }

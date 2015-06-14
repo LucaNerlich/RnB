@@ -33,17 +33,16 @@ public class Handler implements Runnable {
             outputLine = rP.processInput(null);
             out.println(outputLine);
 
+
             //todo client input verwalten.
             while ((inputLine = in.readLine()) != null) {
                 outputLine = rP.processInput(inputLine);
-                if (outputLine != null) {
-                    if (outputLine.equals("/EXIT")) {
-                       break;
-                    }
-                    out.println(outputLine);
-                }
+                out.println(outputLine);
+                if (outputLine.equals("/EXIT"))
+                    break;
             }
 
+            // Iterator<DataOutputStream> it = NetworkHandler.getClients().iterator();
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -55,6 +54,4 @@ public class Handler implements Runnable {
                 }
         }
     }
-
-
 }

@@ -10,10 +10,14 @@ import java.net.Socket;
 public class RaceHandler implements Runnable {
 
     private Socket socket;
+    private Listener listener;
     int i = 0;
 
     public RaceHandler() {
         socket = ConnectionHandler.getConnection();
+        listener = new Listener(socket);
+        Thread listenerThread = new Thread(listener);
+        listenerThread.start();
     }
 
     @Override
@@ -32,9 +36,9 @@ public class RaceHandler implements Runnable {
                 String userInput;
                 while ((userInput = stdIn.readLine()) != null) {
 
-                        out.println(userInput);
-                        //get message from server
-                        System.out.println("echo: " + in.readLine());
+                    out.println(userInput);
+                    //get message from server
+                    System.out.println("echo: " + in.readLine());
 
                     System.out.print("...:");
                 }
