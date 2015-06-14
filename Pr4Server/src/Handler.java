@@ -1,8 +1,7 @@
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Scanner;
+import java.net.SocketException;
 
 /**
  * Created by Luca Nerlich on 13.06.2015.
@@ -21,6 +20,7 @@ public class Handler implements Runnable {
     @Override
     public void run() {
         try {
+            /*
             Scanner in = new Scanner(client.getInputStream());
             PrintWriter out = new PrintWriter(client.getOutputStream(), true);
 
@@ -42,6 +42,25 @@ public class Handler implements Runnable {
             // System.out.println(nachricht);
 
             out.println("Message vom Server");
+
+            */
+
+            InputStream is = client.getInputStream();
+            InputStreamReader isr = new InputStreamReader(is);
+            BufferedReader br = new BufferedReader(isr);
+
+            String clientInput = br.readLine();
+            System.out.println("Printing Client Message: ");
+            System.out.println(clientInput);
+            System.out.println();
+
+            OutputStream os = client.getOutputStream();
+            OutputStreamWriter osw = new OutputStreamWriter(os);
+            BufferedWriter bw = new BufferedWriter(osw);
+            bw.write("Server Antwort: " + clientInput);
+            System.out.println("Message sent to the client.");
+            bw.flush();
+
 
         } catch (IOException e) {
             e.printStackTrace();

@@ -9,9 +9,12 @@ public class ConnectionHandler {
     private static String ip;
     private static int port;
     private static ConnectionHandler instance = null;
+    private static Socket socket = null;
+    private static Listener listener;
+    private static Thread listenerThread;
 
     private ConnectionHandler() {
-      //
+        //
     }
 
     public synchronized static ConnectionHandler getInstance() {
@@ -21,21 +24,37 @@ public class ConnectionHandler {
         return ConnectionHandler.instance;
     }
 
-    public static void setupConnection(String ip, String port){
+    public static void setupConnection(String ip, String port) {
         setIp(ip);
         setPort(port);
     }
 
     public static Socket getConnection() {
-        
-        Socket socket = null;
-        try {
-            socket = new Socket(ip, port);
 
+        try {
+            if (socket == null && listener == null) {
+                socket = new Socket(ip, port);
+                listener = new Listener(ConnectionHandler.getConnection());
+                listenerThread = new Thread(listener);
+                listenerThread.start();
+            }
         } catch (IOException e) {
             System.err.println("Error while creating Socket connection!");
         }
         return socket;
+    }
+
+    public static void closeConnection() throws IOException {
+        if (!socket.isClosed()) {
+            socket.close();
+            socket = null;
+        }
+        if (listenerThread.isAlive()) {
+            listenerThread.interrupt();
+            listener = null;
+            listenerThread = null;
+        }
+        System.out.println("Socket closed by Connection Handler");
     }
 
     public static String getIp() {
@@ -50,7 +69,7 @@ public class ConnectionHandler {
         return port;
     }
 
-    public static void printAvailableFunctions(){
+    public static void printAvailableFunctions() {
         System.out.println();
         System.out.println("/HELP");
         System.out.println("/INFO");

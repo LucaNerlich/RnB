@@ -18,6 +18,72 @@
  * Daniel Sommerlig (Daniel.Sommerlig@haw-hamburg.de)
  * Aufgabe: Aufgabenblatt 1
  * mainNeu.java
+ * <p/>
+ * Praktikum WIAD, WS 2014/2015
+ * Gruppe: Luca Nerlich (Lucasteffen.Nerlich@haw-hamburg.de)
+ * Daniel Sommerlig (Daniel.Sommerlig@haw-hamburg.de)
+ * Aufgabe: Aufgabenblatt 1
+ * mainNeu.java
+ * <p/>
+ * Praktikum WIAD, WS 2014/2015
+ * Gruppe: Luca Nerlich (Lucasteffen.Nerlich@haw-hamburg.de)
+ * Daniel Sommerlig (Daniel.Sommerlig@haw-hamburg.de)
+ * Aufgabe: Aufgabenblatt 1
+ * mainNeu.java
+ * <p/>
+ * Praktikum WIAD, WS 2014/2015
+ * Gruppe: Luca Nerlich (Lucasteffen.Nerlich@haw-hamburg.de)
+ * Daniel Sommerlig (Daniel.Sommerlig@haw-hamburg.de)
+ * Aufgabe: Aufgabenblatt 1
+ * mainNeu.java
+ * <p/>
+ * Praktikum WIAD, WS 2014/2015
+ * Gruppe: Luca Nerlich (Lucasteffen.Nerlich@haw-hamburg.de)
+ * Daniel Sommerlig (Daniel.Sommerlig@haw-hamburg.de)
+ * Aufgabe: Aufgabenblatt 1
+ * mainNeu.java
+ * <p/>
+ * Praktikum WIAD, WS 2014/2015
+ * Gruppe: Luca Nerlich (Lucasteffen.Nerlich@haw-hamburg.de)
+ * Daniel Sommerlig (Daniel.Sommerlig@haw-hamburg.de)
+ * Aufgabe: Aufgabenblatt 1
+ * mainNeu.java
+ * <p/>
+ * Praktikum WIAD, WS 2014/2015
+ * Gruppe: Luca Nerlich (Lucasteffen.Nerlich@haw-hamburg.de)
+ * Daniel Sommerlig (Daniel.Sommerlig@haw-hamburg.de)
+ * Aufgabe: Aufgabenblatt 1
+ * mainNeu.java
+ * <p/>
+ * Praktikum WIAD, WS 2014/2015
+ * Gruppe: Luca Nerlich (Lucasteffen.Nerlich@haw-hamburg.de)
+ * Daniel Sommerlig (Daniel.Sommerlig@haw-hamburg.de)
+ * Aufgabe: Aufgabenblatt 1
+ * mainNeu.java
+ * <p/>
+ * Praktikum WIAD, WS 2014/2015
+ * Gruppe: Luca Nerlich (Lucasteffen.Nerlich@haw-hamburg.de)
+ * Daniel Sommerlig (Daniel.Sommerlig@haw-hamburg.de)
+ * Aufgabe: Aufgabenblatt 1
+ * mainNeu.java
+ * <p/>
+ * Praktikum WIAD, WS 2014/2015
+ * Gruppe: Luca Nerlich (Lucasteffen.Nerlich@haw-hamburg.de)
+ * Daniel Sommerlig (Daniel.Sommerlig@haw-hamburg.de)
+ * Aufgabe: Aufgabenblatt 1
+ * mainNeu.java
+ * <p/>
+ * Praktikum WIAD, WS 2014/2015
+ * Gruppe: Luca Nerlich (Lucasteffen.Nerlich@haw-hamburg.de)
+ * Daniel Sommerlig (Daniel.Sommerlig@haw-hamburg.de)
+ * Aufgabe: Aufgabenblatt 1
+ * mainNeu.java
+ * <p/>
+ * Praktikum WIAD, WS 2014/2015
+ * Gruppe: Luca Nerlich (Lucasteffen.Nerlich@haw-hamburg.de)
+ * Daniel Sommerlig (Daniel.Sommerlig@haw-hamburg.de)
+ * Aufgabe: Aufgabenblatt 1
+ * mainNeu.java
  */
 
 /**
@@ -28,9 +94,8 @@
  * mainNeu.java
  */
 
-import java.io.IOException;
+import java.io.*;
 import java.net.Socket;
-import java.util.Scanner;
 
 /**
  * Application class for our list
@@ -40,7 +105,7 @@ import java.util.Scanner;
  *
  *        soll permanent auf Nachrichten vom Server warten.
  */
-public class Listener extends Thread implements Runnable {
+public class Listener implements Runnable {
     Socket socket;
 
     public Listener(Socket socket) {
@@ -50,16 +115,26 @@ public class Listener extends Thread implements Runnable {
     @Override
     public void run() {
         while (!Thread.interrupted()) {
-            Scanner in = null;
             try {
-                if (!socket.isClosed()) {
-                    in = new Scanner(socket.getInputStream());
-                    if (in.hasNext()) {
-                        System.out.println(in);
-                    }
+                if(!socket.isClosed()) {
+                    //Get the return message from the server
+
+                    InputStream is = socket.getInputStream();
+                    InputStreamReader isr = new InputStreamReader(is);
+                    BufferedReader br = new BufferedReader(isr);
+                    StringBuffer sb = new StringBuffer();
+
+                    do {
+                        char[] c = new char[] { 1024 };
+                        br.read(c);
+                        sb.append(c);
+                    }while (br.ready());
+
+                    System.out.println(sb.toString());
+                    System.out.println("Message received from the server.");
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                System.err.println("Error Listener: Socket Closed");
             }
         }
     }
