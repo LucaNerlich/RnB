@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.io.InterruptedIOException;
 import java.net.ServerSocket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -15,6 +16,7 @@ public class Main {
             final ExecutorService pool = Executors.newCachedThreadPool();
             int port = 3141;
             final ServerSocket serverSocket = new ServerSocket(port);
+            serverSocket.setSoTimeout(60000); // Timeout nach 1 Minute
 
             Thread t1 = new Thread(new NetworkHandler(pool, serverSocket));
             System.out.println("Start NetworkService(Multiplikation), Thread: " + Thread.currentThread());
@@ -41,7 +43,9 @@ public class Main {
                     }
             );
 
-        }catch(IOException ioEx){
+        } catch (InterruptedIOException iEex) {
+            System.err.println("Timeout nach einer Minute!");
+        } catch (IOException ioEx) {
             ioEx.printStackTrace();
         }
     }

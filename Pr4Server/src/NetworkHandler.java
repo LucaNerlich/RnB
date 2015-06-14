@@ -20,11 +20,6 @@ public class NetworkHandler implements Runnable {
 
     public void run() { // run the service
         try {
-            //Endlos-Schleife: warte auf Client-Anforderungen
-            //Abbruch durch Strg+C oder Client-Anforderung 'Exit',
-            //dadurch wird der ServerSocket beendet, was hier zu einer IOException
-            //führt und damit zum Ende der run-Methode mit vorheriger Abarbeitung der
-            //finally-Klausel.
             while (true) {
         /*
          Zunächst wird eine Client-Anforderung entgegengenommen(accept-Methode).

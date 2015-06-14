@@ -1,5 +1,7 @@
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.Scanner;
 
 /**
  * Created by Luca Nerlich on 13.06.2015.
@@ -8,8 +10,8 @@ public class RaceHandler implements Runnable {
 
     private Socket socket;
 
-    public RaceHandler(Socket socket) {
-        this.socket = socket;
+    public RaceHandler() {
+      //
     }
 
     @Override
@@ -18,10 +20,29 @@ public class RaceHandler implements Runnable {
         while (!Thread.interrupted()) {
 
             try {
-                String userInput = String.valueOf(System.in.read());
-                System.out.println(userInput);
-            } catch (IOException e) {
+
+                socket = ConnectionHandler.getConnection();
+
+                Scanner in = new Scanner(socket.getInputStream());
+                PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+
+                System.out.print("Enter something:");
+                String input = System.console().readLine();
+                if (input.equals("/HELP")) {
+                    ConnectionHandler.printAvailableFunctions();
+                }
+
+                // wird nur geschickt, wenn socket closed?
+                out.print(input);
+
+            } catch (Exception e) {
                 e.printStackTrace();
+            } finally {
+                if (socket != null)
+                    try {
+                        socket.close();
+                    } catch (IOException e) {
+                    }
             }
         }
     }

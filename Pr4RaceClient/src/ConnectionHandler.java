@@ -6,15 +6,27 @@ import java.net.Socket;
  */
 public class ConnectionHandler {
 
-    private String ip;
-    private int port;
+    private static String ip;
+    private static int port;
+    private static ConnectionHandler instance = null;
 
-    public ConnectionHandler(String ip, String port) {
+    private ConnectionHandler() {
+      //
+    }
+
+    public synchronized static ConnectionHandler getInstance() {
+        if (instance == null) {
+            ConnectionHandler.instance = new ConnectionHandler();
+        }
+        return ConnectionHandler.instance;
+    }
+
+    public static void setupConnection(String ip, String port){
         setIp(ip);
         setPort(port);
     }
 
-    public Socket getConnection(){
+    public static Socket getConnection() {
         Socket socket = null;
         try {
             socket = new Socket(ip, port);
@@ -24,23 +36,31 @@ public class ConnectionHandler {
         return socket;
     }
 
-    public String getIp() {
+    public static String getIp() {
         return ip;
     }
 
-    private void setIp(String ip) {
-        this.ip = ip;
+    private static void setIp(String ip) {
+        ConnectionHandler.ip = ip;
     }
 
-    public int getPort() {
+    public static int getPort() {
         return port;
     }
 
-    private void setPort(String port) {
+    public static void printAvailableFunctions(){
+        System.out.println();
+        System.out.println("/HELP");
+        System.out.println("/INFO");
+        System.out.println("/REGcar");
+        System.out.println("/STARTrace");
+        System.out.println();
+    }
+
+    private static void setPort(String port) {
         try {
-            this.port = Integer.parseInt(port);
-        }
-        catch(NumberFormatException ex){
+            ConnectionHandler.port = Integer.parseInt(port);
+        } catch (NumberFormatException ex) {
             System.err.println("You did not provide a valid int value for the port!");
         }
     }
