@@ -38,11 +38,9 @@ public class Handler implements Runnable {
                 outputLine = rP.processInput(inputLine);
                 if (outputLine != null) {
                     if (outputLine.equals("/EXIT")) {
-                       // break;
+                       break;
                     }
                     out.println(outputLine);
-                }else{
-                    break;
                 }
             }
 
