@@ -23,7 +23,6 @@ public class RaceHandler implements Runnable {
 
                 socket = ConnectionHandler.getConnection();
 
-                Scanner in = new Scanner(socket.getInputStream());
                 PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
 
                 System.out.print("Enter something:");
@@ -34,6 +33,7 @@ public class RaceHandler implements Runnable {
 
                 // wird nur geschickt, wenn socket closed?
                 out.print(input);
+
 
             } catch (Exception e) {
                 e.printStackTrace();

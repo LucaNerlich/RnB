@@ -27,9 +27,11 @@ public class ConnectionHandler {
     }
 
     public static Socket getConnection() {
+        
         Socket socket = null;
         try {
             socket = new Socket(ip, port);
+
         } catch (IOException e) {
             System.err.println("Error while creating Socket connection!");
         }
