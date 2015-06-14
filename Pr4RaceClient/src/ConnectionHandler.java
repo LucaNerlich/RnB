@@ -58,15 +58,6 @@ public class ConnectionHandler {
         return port;
     }
 
-    public static void printAvailableFunctions() {
-        System.out.println();
-        System.out.println("/HELP");
-        System.out.println("/INFO");
-        System.out.println("/REGcar");
-        System.out.println("/STARTrace");
-        System.out.println();
-    }
-
     private static void setPort(String port) {
         try {
             ConnectionHandler.port = Integer.parseInt(port);

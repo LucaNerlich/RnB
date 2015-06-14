@@ -1,7 +1,9 @@
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.SocketException;
 
 /**
  * Created by Luca Nerlich on 13.06.2015.
@@ -31,66 +33,19 @@ public class Handler implements Runnable {
             outputLine = rP.processInput(null);
             out.println(outputLine);
 
+            //todo client input verwalten.
             while ((inputLine = in.readLine()) != null) {
                 outputLine = rP.processInput(inputLine);
-                out.println(outputLine);
-                if (outputLine.equals("Bye."))
+                if (outputLine != null) {
+                    if (outputLine.equals("/EXIT")) {
+                       // break;
+                    }
+                    out.println(outputLine);
+                }else{
                     break;
+                }
             }
 
-
-
-
-
-
-
-
-
-
-
-
-            /*
-            Scanner in = new Scanner(client.getInputStream());
-            PrintWriter out = new PrintWriter(client.getOutputStream(), true);
-
-            System.out.println("running service, " + Thread.currentThread());
-            System.out.println("Verbindung zu Client aufgebaut.");
-
-            if (in.hasNext()) {
-                String answer = in.nextLine();
-                System.out.println(answer);
-            } else {
-                System.out.println("No message recieved,");
-            }
-            out.println("y von Server");
-
-            System.out.println("Displying Server Message");
-
-            //sending answer
-            // out.println(answer + " von Server");
-            // System.out.println(nachricht);
-
-            out.println("Message vom Server");
-
-
-
-            InputStream is = client.getInputStream();
-            InputStreamReader isr = new InputStreamReader(is);
-            BufferedReader br = new BufferedReader(isr);
-
-            String clientInput = br.readLine();
-            System.out.println("Printing Client Message: ");
-            System.out.println(clientInput);
-            System.out.println();
-
-            OutputStream os = client.getOutputStream();
-            OutputStreamWriter osw = new OutputStreamWriter(os);
-            BufferedWriter bw = new BufferedWriter(osw);
-            bw.write("Server Antwort: " + clientInput);
-            System.out.println("Message sent to the client.");
-            bw.flush();
-
-            */
 
         } catch (IOException e) {
             e.printStackTrace();

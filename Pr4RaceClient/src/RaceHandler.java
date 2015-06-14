@@ -28,16 +28,15 @@ public class RaceHandler implements Runnable {
                 BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
 
                 //get input and send to server, via PW connected to Socket.
-                System.out.print("Enter something:");
+                System.out.print("...:");
                 String userInput;
                 while ((userInput = stdIn.readLine()) != null) {
-                    if (userInput.equals("/HELP")) {
-                        ConnectionHandler.printAvailableFunctions();
-                    } else {
+
                         out.println(userInput);
                         //get message from server
                         System.out.println("echo: " + in.readLine());
-                    }
+
+                    System.out.print("...:");
                 }
             }
         } catch (IOException e) {
