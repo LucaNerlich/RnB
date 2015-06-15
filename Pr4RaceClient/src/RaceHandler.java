@@ -32,13 +32,16 @@ public class RaceHandler implements Runnable {
                 //get input and send to server, via PW connected to Socket.
                 System.out.print("...:");
                 String userInput;
-                while ((userInput = stdIn.readLine()) != null) {
+                while(true) {
+                    while ((userInput = stdIn.readLine()) != null) {
 
-                    schreibeNachricht(userInput);
-                    //get message from server
-                    System.out.println("echo: " + leseNachricht());
+                        schreibeNachricht(userInput);
+                        //get message from server
+                        //server schliﬂt conn nach einer uebertragung
+                        System.out.println("echo: " + leseNachricht());
 
-                    System.out.print("...:");
+                        System.out.print("...:");
+                    }
                 }
 
             }
